@@ -1,0 +1,60 @@
+{
+  "_from": "zip-js",
+  "_id": "zip-js@0.0.2",
+  "_inBundle": false,
+  "_integrity": "sha1-6G8wxYjeTkkY6Ktzsa7z5NhdOrU=",
+  "_location": "/zip-js",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "zip-js",
+    "name": "zip-js",
+    "escapedName": "zip-js",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/zip-js/-/zip-js-0.0.2.tgz",
+  "_shasum": "e86f30c588de4e4918e8ab73b1aef3e4d85d3ab5",
+  "_spec": "zip-js",
+  "_where": "/home/kazimiersa/dev/table-data",
+  "author": {
+    "name": "Gildas Lormeau",
+    "email": "gildas.lormeau@gmail.com",
+    "url": "https://github.com/gildas-lormeau/"
+  },
+  "bugs": {
+    "url": "https://github.com/gildas-lormeau/zip.js/issues",
+    "email": "gildas.lormeau@gmail.com"
+  },
+  "bundleDependencies": false,
+  "dependencies": {},
+  "deprecated": false,
+  "description": "A JavaScript library to zip and unzip files",
+  "devDependencies": {},
+  "homepage": "https://github.com/gildas-lormeau/zip.js",
+  "keywords": [
+    "zip unzip delate inflate"
+  ],
+  "licenses": [
+    {
+      "type": "BSD-3-Clause",
+      "url": "http://opensource.org/licenses/BSD-3-Clause"
+    }
+  ],
+  "name": "zip-js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/johanpoirier/zip.js.git"
+  },
+  "scripts": {
+    "echo": "echo \"\"",
+    "env": "env"
+  },
+  "version": "0.0.2"
+}

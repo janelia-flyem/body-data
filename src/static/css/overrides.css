@@ -1,0 +1,183 @@
+#data-table .number input {
+    /* max-width: 60%; */
+    /* margin-left: 10px; */
+}
+
+.minmax {
+   text-align: left;
+   width: 100%;
+   margin-top: -2px;
+}
+
+.data-table-column {
+    margin: auto;
+    float:  none;
+}
+
+body {
+    font-size: 12px;
+}
+
+.neuroglancer-icon {
+    font-size: 14px;
+    margin: auto;
+    color: #000;
+}
+
+.neuroglancer-icon:hover {
+    color: #337ab7;
+    text-decoration: none;
+}
+
+.paginate_button.previous{
+    margin-right: 10px;
+}
+
+.paginate_button.next{
+    margin-left: 10px;
+}
+
+.table-search{
+    width: 95%;
+    font-weight: normal;
+    margin: 2px;
+}
+
+/* do not group these rules */
+input::-webkit-input-placeholder {
+    color: #999;
+}
+
+input:-moz-placeholder {
+    /* FF 4-18 */
+    color: #999;
+}
+
+input::-moz-placeholder {
+    color: #999;
+}
+
+input:-ms-input-placeholder {
+    /* IE 10+ */
+    color: #999;
+}
+
+.paginate_button {
+    margin-right: 8px;
+}
+
+body .row {
+    margin: 0 20px 0 20px;
+}
+
+.body-card {
+    flex-direction: row;
+    width: 120px;
+    height: 120px;
+}
+
+.gallery-container {
+   width: 60%;
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+}
+
+.gallery-image {
+   min-width:100px;
+   min-height: 100px;
+}
+
+#shark-container {
+   border: #DDD solid thin;
+   background-color: white;
+}
+
+#shark-container-bbox {
+   min-width: 50%;
+   height: 70%;
+   display: none;
+   z-index: 2;
+   position: absolute;
+   cursor: pointer;
+}
+
+.shark-logo {
+   width: 14px;
+   height: 14px;
+   margin: -5.2px 0 0 15px;
+}
+
+.shark-logo:hover {
+   background-color: #DDD;
+}
+
+#shark-close {
+   font-size: 1.4em;
+   float: right;
+   margin: 4px 5px 0 0;
+   color: #888;
+   border: solid thin;
+   position: absolute;
+   right: 0px;
+}
+
+#shark-close:hover {
+   background-color: #EEE;
+   text-decoration: none;
+}
+
+#shark-axes {
+   width: 50px;
+   height: 50px;
+   background-color: yellow;
+   left: 10px;
+   bottom: 10px;
+}
+
+.shark-visible
+{
+   visibility: visible;
+   opacity: 1;
+   transition: opacity 2s linear;
+}
+
+.shark-hidden
+{
+   visibility: hidden;
+   opacity: 0;
+   transition: visibility 0s 5s, opacity 5s linear;
+}
+
+.select-axis {
+   padding-bottom: 10px;
+}
+
+#data-table_filter{
+    display: none;
+}
+
+#data-table_length {
+   float: left;
+}
+
+.btn {
+   font-size: 0.8em;
+}
+
+#error-msg {
+   color: red;
+   position: absolute;
+   z-index: 3;
+   top: 0px;
+   margin-left: 20px;
+}
+
+label {
+   font-weight: normal;
+   line-height: 1.75em;
+}
+
+label input[type=checkbox]{
+   margin-right: 0.3em;
+}
