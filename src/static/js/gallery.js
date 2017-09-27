@@ -87,7 +87,7 @@ var gallery_ns = {
          var gallery_columns = [
             {
                title: 'Body ID',
-               width: '5%',
+               width: '8%',
                data: 'bodyId',
                render: function (data, type, row, meta) {
                   if (row) {
