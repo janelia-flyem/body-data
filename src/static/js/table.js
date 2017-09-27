@@ -1,13 +1,9 @@
-// var body_table = {
-//    var url_datainstance = 'http://emdata1:8700/api/node/18979088f9d248d6ac428df4cea022fe/pb26-27-2-trm-eroded32_ffn-20170216-2_celis_cx2-2048_r10_0_seeded_64blksz_vol_skeletons'
-// };
-
-
 /**
  * Functions used to create table of body information
  */
 var table_ns = {
 
+   //Show an error string which disappears on its own
    add_error_element: function (errormsg) {
       $('body').prepend('<div id="error-msg">' + errormsg + '</div>');
       setTimeout(function(){
@@ -150,6 +146,7 @@ var table_ns = {
    }
 };
 
+
 $(document).ready(function () {
    var currRow = null;
 
@@ -185,6 +182,7 @@ $(document).ready(function () {
    if (table_data) {
 
       var table = $('#data-table').DataTable({
+         responsive: true,
          autoWidth: false,
          data: table_data.data,
          pageLength: 10,
@@ -292,7 +290,7 @@ $(document).ready(function () {
    var mins = document.getElementsByClassName('min');
    var maxs = document.getElementsByClassName('max');
 
-   /* Custom filtering function which will search data in column four between two values */
+   // Custom filtering function which will search data in column four between two values
    $.fn.dataTable.ext.search.push (
        function (settings, data, dataIndex, myobject, row) {
 
@@ -324,8 +322,9 @@ $(document).ready(function () {
        }
    );
 
-   if (table) {
 
+   // Search functionality for text input fields
+   if (table) {
       table.columns('.text').every(
             function () {
                var column = this;
@@ -345,7 +344,7 @@ $(document).ready(function () {
                });
             });
 
-      // Event listener to the two range filtering inputs to redraw on input
+      // Search functionality for the two range filtering inputs to redraw on input
       $('.min, .max').keyup(function () {
          table.draw();
       });

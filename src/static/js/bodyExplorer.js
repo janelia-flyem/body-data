@@ -1,3 +1,4 @@
+// Namespace with helpful variables and functions for the body explorer
 var bodyExplorer = {
 
    jquery: 'static/components/jquery/dist/jquery.min.js',
@@ -51,32 +52,6 @@ var bodyExplorer = {
 
                      // Output to console
                      console.log(strData);
-
-                     // // read the zip file  and create / override table_data
-                     // zip.createReader(new zip.BlobReader(blob), function(reader) {
-                     //
-                     //    // get all entries from the zip
-                     //    reader.getEntries(function(entries) {
-                     //       if (entries.length) {
-                     //
-                     //          // get first entry content as text
-                     //          entries[0].getData(new zip.TextWriter(), function(text) {
-                     //             // text contains the entry data as a String
-                     //             console.log(text);
-                     //
-                     //             // close the zip reader
-                     //             reader.close(function() {
-                     //                console.log('completed');
-                     //             });
-                     //
-                     //          }, function(current, total) {
-                     //             console.log('make some progress');
-                     //          });
-                     //       }
-                     //    });
-                     // }, function(error) {
-                     //    // onerror callback
-                     // });
                   }
                }
          );

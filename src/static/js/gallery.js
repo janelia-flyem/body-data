@@ -7,18 +7,11 @@ var gallery_ns = {
 
    tableElem: null,
 
-   toggleCellDisplay: function (row, metarow, metacol) {
-      $(this.tableElem).DataTable().cell(':eq(0)').focus();
-   },
-
-   /*
-    * Create image gallery using Datatables
-    */
+   // Create image gallery using Datatables
    createGallery: function (bodyIds, checked) {
       var myWindow = window.open();
       var doc = myWindow.document;
-      // doc.location.origin = window.location.origin;
-      // myWindow.history.replaceState({}, document.title, window.location.href);
+
       // Set heading
       var head = doc.createElement('h3');
       head.appendChild(doc.createTextNode('Body Gallery'));
@@ -35,9 +28,6 @@ var gallery_ns = {
       csses.push(bodyExplorer.customCSS);
 
       var location = window.location.origin;
-      // if (location.includes('/bodyannotations/')){
-      //    location = location.replace('/bodyannotations/','');
-      // }
 
       if (location[location.length - 1] == '/') {
          location = location.substr(0, location.length - 1);
@@ -169,7 +159,8 @@ var gallery_ns = {
                data: gallery_ns.bodyMatrix,
                pageLength: 50,
                width: '500px',
-               columns: gallery_columns
+               columns: gallery_columns,
+               responsive: true
             }).on('change', 'input[data-view]', this.tableElem, function (e) {
                var tr = this.closest('tr');
                var dt = $(e.data).DataTable().row(tr);
