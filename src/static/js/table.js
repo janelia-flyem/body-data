@@ -158,7 +158,7 @@ $(document).ready(function () {
       var title = $(this).text();
       var name = this.getAttribute('name');
 
-      $(this).html('<input class="text-search body-search" name="' + name + '" type="text" placeholder="Search ' + title + '" />');
+      $(this).html('<input class="text-search body-search" name="' + name + '" type="text" title="Use \'/\' to search with regex" placeholder="Search ' + title + '" />');
    });
 
    // Add simple search but number field for the body ID
@@ -291,7 +291,6 @@ $(document).ready(function () {
 
    var mins = document.getElementsByClassName('min');
    var maxs = document.getElementsByClassName('max');
-   var text = document.getElementsByClassName('text-search');
 
    /* Custom filtering function which will search data in column four between two values */
    $.fn.dataTable.ext.search.push (
@@ -321,28 +320,6 @@ $(document).ready(function () {
              result = result && (min <= value && value <= max);
           }
 
-          var cell = null;
-          // Loop through the elements which are default search elements
-          for (var j = 0; j < text.length; j++) {
-             cell = data[text[j].name];
-             var searchString = text[j].value;
-             if (searchString === '') {  // If not searching for anything, move on to other columns
-                continue;
-             }
-             if (searchString > 0 && cell === '') {   // Searching for something but cell is empty
-                return false;
-             }
-
-             //Check if comma separated values
-             var comma = false;
-             var sStrings = searchString.split(',');
-             if (cell) {
-                for (var s = 0; s < sStrings.length; s++) {
-                   comma = comma || cell.indexOf(sStrings[s]) !== -1;
-                }
-             }
-             result = result && comma;
-          }
           return result;
        }
    );
@@ -352,39 +329,21 @@ $(document).ready(function () {
       table.columns('.text').every(
             function () {
                var column = this;
-               $('input', this.footer()).on('keyup change', function () {
-
-                  var useRegex = $('#use-regex').is(":checked");
-                  var smartSearch = $('#smart-search').is(":checked");
-                  console.log(this.value + " " + useRegex + " " + smartSearch);
-                        column.search(this.value,
-                           useRegex,
-                           smartSearch
-                  ).draw();
-
-                  // if (key.originalEvent.key === 'Enter') {
-                  //    var useRegex = $('#use-regex').is(":checked");
-                  //    var searchValue = $('#search-Name').val();
-                  //    var smartSearch = false;
-                  //    console.log('search value: ' + searchValue + ' use regex: ' + useRegex);
-                  //    that.search(searchValue, useRegex, smartSearch).draw();
-                  // }
-                  //
-                  //    console.log($('#use-regex').is(":checked"));
-                  //    table.draw();
-                  // }
+               $('input', this.footer()).on('keyup change', function (key) {
+                  if (this.value.startsWith('/')) {
+                     column.search(this.value.substr(1),
+                           true, // regex search
+                           false // no smart search
+                     ).draw();
+                  }
+                  else {
+                     column.search(this.value,
+                           false, // no regex search
+                           true // but smart search
+                     ).draw();
+                  }
                });
             });
-
-      // Apply the search for regex search
-      // table.columns().every(
-      //    function () {
-      //       $('input.text-search').on('keyup change', function (key) {
-      //          if (key.originalEvent.key === 'Enter'){
-      //             table.draw();
-      //          }
-      //       });
-      //    });
 
       // Event listener to the two range filtering inputs to redraw on input
       $('.min, .max').keyup(function () {
