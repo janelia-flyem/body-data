@@ -1,5 +1,6 @@
 env
-node-modules
+node_modules
 body-data.wsgi
 body-data.default_settings
 Gruntfile.js
+.idea
