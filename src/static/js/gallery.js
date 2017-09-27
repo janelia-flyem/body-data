@@ -78,7 +78,7 @@ var gallery_ns = {
          this.bodyMatrix = bodyIds.map(function (elem) {
             return {
                bodyId: elem,
-               showxy: true,
+               showxy: false,
                showyz: false,
                showxz: false
             };
@@ -165,27 +165,26 @@ var gallery_ns = {
          );
 
          $(this.tableElem).DataTable({
-            autoWidth: false,
-            data: gallery_ns.bodyMatrix,
-            pageLength: 50,
-            width: '500px',
-            columns: gallery_columns
-         }).on('change', 'input[data-view]', this.tableElem, function (e) {
-            var tr = this.closest('tr');
-            var dt = $(e.data).DataTable().row(tr);
-            var data = dt.data();
-            if (this.dataset.view === "xy") {
-               data.showxy = this.checked;
-            }
-            else if (this.dataset.view === "xz") {
-               data.showxz = this.checked;
-            }
-            else if (this.dataset.view === "yz") {
-               data.showyz = this.checked;
-            }
-            dt.invalidate();
-         })
-
+               autoWidth: false,
+               data: gallery_ns.bodyMatrix,
+               pageLength: 50,
+               width: '500px',
+               columns: gallery_columns
+            }).on('change', 'input[data-view]', this.tableElem, function (e) {
+               var tr = this.closest('tr');
+               var dt = $(e.data).DataTable().row(tr);
+               var data = dt.data();
+               if (this.dataset.view === "xy") {
+                  data.showxy = this.checked;
+               }
+               else if (this.dataset.view === "xz") {
+                  data.showxz = this.checked;
+               }
+               else if (this.dataset.view === "yz") {
+                  data.showyz = this.checked;
+               }
+               dt.invalidate();
+            })
 
       }).bind(this))
    }

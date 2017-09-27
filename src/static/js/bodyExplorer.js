@@ -14,7 +14,7 @@ var bodyExplorer = {
    // custom scripts
    galleryJS: 'static/js/gallery.js',
 
-   openGallery: function(){
+   openGallery: function() {
       var checked = {
          xy: true,
          xz: false,
@@ -23,7 +23,7 @@ var bodyExplorer = {
       table_ns.open_image_gallery(checked);
    },
 
-   requestData: function(){
+   requestData: function() {
 
       zip.workerScriptsPath = '/static/components/zip-js/WebContent/';
       var val = document.getElementById("uuid-input").value;
@@ -87,13 +87,17 @@ var bodyExplorer = {
       }
    },
 
-   hideColumn: function(){
+   hideColumn: function() {
       var hideElement = $('#data-table').DataTable().columns(1);
       var toggle = hideElement.visible();
       hideElement.visible(!(toggle[0]));
    },
 
-   toggleOptions: function(){
+   toggleOptions: function() {
       $('#table-options-content').css();
+   },
+
+   safeString: function(string) {
+      return string.replace(' ','-');
    }
 };

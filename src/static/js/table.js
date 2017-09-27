@@ -189,14 +189,16 @@ $(document).ready(function () {
          data: table_data.data,
          pageLength: 10,
          columns: [{
-            className: "bodyId number",
+            className: "bodyId text",
             title: 'Body ID',
+            name: 'id',
             data: 'body ID',
             width: '3%'
          },
          {
             title: 'Name',
             data: 'name',
+            name: 'nane',
             width: '10%',
             className: "text",
             render: function (data, type, row, meta) {
@@ -206,6 +208,7 @@ $(document).ready(function () {
          {
             title: 'Status',
             data: 'status',
+            name: 'status',
             className: "text",
             render: function (data, type, row, meta) {
                return row.status ? row.status : '';
@@ -215,6 +218,7 @@ $(document).ready(function () {
          {
             title: 'PreSyn',
             data: 'PreSyn',
+            name: 'presyn',
             type: 'num',
             width: '6%',
             className: "number"
@@ -222,6 +226,7 @@ $(document).ready(function () {
          {
             title: 'PostSyn',
             data: 'PostSyn',
+            name: 'postsyn',
             type: 'num',
             width: '6%',
             className: "number"
@@ -229,6 +234,7 @@ $(document).ready(function () {
          {
             title: 'Assigned',
             data: 'assigned',
+            name: 'assigned',
             className: "text",
             render: function (data, type, row, meta) {
                return row.assigned ? row.assigned : '';
@@ -238,6 +244,7 @@ $(document).ready(function () {
          {
             title: 'User',
             data: 'user',
+            name: 'user',
             className: "text",
             render: function (data, type, row, meta) {
                return row.user ? row.user : '';
@@ -248,6 +255,7 @@ $(document).ready(function () {
             title: 'Size',
             data: 'size',
             type: 'num',
+            name: 'size',
             className: "number",
             render: function (data, type, row, meta) {
 
@@ -258,6 +266,7 @@ $(document).ready(function () {
          {
             title: 'Comment',
             data: 'comment',
+            name: 'comment',
             width: '15%',
             className: "text",
             render: function (data, type, row, meta) {
@@ -266,6 +275,7 @@ $(document).ready(function () {
          },
          {
             className: "shark",
+            name: 'shark',
             orderable: false,
             render: function (data, type, row, meta) {
                var ng = table_ns.generate_url_neuroglancer(row);
@@ -339,15 +349,42 @@ $(document).ready(function () {
 
    if (table) {
 
-      // Apply the search for regex search
-      table.columns().every(
-         function () {
-            $('input.text-search').on('keyup change', function (key) {
-               if (key.originalEvent.key === 'Enter'){
-                  table.draw();
-               }
+      table.columns('.text').every(
+            function () {
+               var column = this;
+               $('input', this.footer()).on('keyup change', function () {
+
+                  var useRegex = $('#use-regex').is(":checked");
+                  var smartSearch = $('#smart-search').is(":checked");
+                  console.log(this.value + " " + useRegex + " " + smartSearch);
+                        column.search(this.value,
+                           useRegex,
+                           smartSearch
+                  ).draw();
+
+                  // if (key.originalEvent.key === 'Enter') {
+                  //    var useRegex = $('#use-regex').is(":checked");
+                  //    var searchValue = $('#search-Name').val();
+                  //    var smartSearch = false;
+                  //    console.log('search value: ' + searchValue + ' use regex: ' + useRegex);
+                  //    that.search(searchValue, useRegex, smartSearch).draw();
+                  // }
+                  //
+                  //    console.log($('#use-regex').is(":checked"));
+                  //    table.draw();
+                  // }
+               });
             });
-         });
+
+      // Apply the search for regex search
+      // table.columns().every(
+      //    function () {
+      //       $('input.text-search').on('keyup change', function (key) {
+      //          if (key.originalEvent.key === 'Enter'){
+      //             table.draw();
+      //          }
+      //       });
+      //    });
 
       // Event listener to the two range filtering inputs to redraw on input
       $('.min, .max').keyup(function () {

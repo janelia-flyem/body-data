@@ -48,7 +48,7 @@
          <table class="table table-striped table-hover" id="data-table">
             <tfoot>
             <tr>
-               <th class="default-num" name="0">Body ID</th> {# Body ID #}
+               <th class="default" name="0">Body ID</th> {# Body ID #}
                <th class="default" name="1">Name</th> {# Name #}
                <th class="default" name="2">Status</th>
                <th class="number" name="3"> {# PreSyn #}
@@ -61,17 +61,22 @@
                <th class="default" name="8">Comment</th> {# Commment #}
                <th class="reset">
                   <input class="btn btn-default reset-button btn-sm" type="button" onclick="table_ns.resetFilter()" value="Reset Filters"/>
-                  <label><input id="show-name" class="body-search" type="checkbox" value="">Use Regex</label>
+                  <div id="search-options card">
+                     <label><input id="use-regex" class="body-search" type="checkbox" value="">Use Regex</label>
+                     <label><input id="smart-search" class="body-search" type="checkbox" value="">Smart Search</label>
+                  </div>
                </th>
             </tr>
             </tfoot>
          </table>
       </div>
    </div>
-   <!-- contrib dependencies -->
+
    <script src="{{url_for('static', filename='js/bodyExplorer.js')}}"></script>
    <script>
+      // Initialize table_data from template variable
       var table_data = {{ mytable|safe }};
+      table_data.data = table_data.data.slice(0,5); // DEV config sub array
    </script>
    <script>
       bodyExplorer.uuid = {{ uuid }};
