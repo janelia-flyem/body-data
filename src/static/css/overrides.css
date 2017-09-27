@@ -186,3 +186,20 @@ label input[type=checkbox]{
    border: thin solid #DDD;
 }
 
+.hide-column{
+   font-size: 0.8em;
+   color: #999;
+   float: right;
+   margin-top: 1px;
+}
+
+.shark .hide-column{
+   margin-top: -15px;
+}
+
+.hide-column:hover {
+   font-size: 1em;
+   color: #999;
+   float: right;
+}
+

@@ -108,7 +108,7 @@ var gallery_ns = {
                         if (table_data.data[meta.row]) {
                            var offset = (table_data.data[meta.row]['dvid coord']).replace(/\,/g, '_');
                            var url = bodyExplorer.galleryUrlBase + bodyExplorer.uuid + bodyExplorer.galleryUrlXY + offset;
-                           return '<img alt="N/A" class="body-image" src="' + url + '"/></img>';
+                           return '<img alt="'+ offset +'" class="body-image" src="' + url + '"/></img>';
                         }
                      }
                      return '';
@@ -126,7 +126,7 @@ var gallery_ns = {
                         if (table_data.data[meta.row]) {
                            var offset = (table_data.data[meta.row]['dvid coord']).replace(/\,/g, '_');
                            var url = bodyExplorer.galleryUrlBase + bodyExplorer.uuid + bodyExplorer.galleryUrlXZ + offset;
-                           return '<img alt="N/A" class="body-image" src="' + url + '"/></img>';
+                           return '<img alt="'+ offset +'" class="body-image" src="' + url + '"/></img>';
                         }
                      }
                      return '';
@@ -146,7 +146,7 @@ var gallery_ns = {
                         if (table_data.data[meta.row]) {
                            var offset = (table_data.data[meta.row]['dvid coord']).replace(/\,/g, '_');
                            var url = bodyExplorer.galleryUrlBase + bodyExplorer.uuid + bodyExplorer.galleryUrlYZ + offset;
-                           return '<img alt="N/A" class="body-image" src="' + url + '"/></img>';
+                           return '<img alt="'+ offset +'" class="body-image" src="' + url + '"/></img>';
                         }
                      }
                      return '';

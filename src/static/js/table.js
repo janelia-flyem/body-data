@@ -3,7 +3,7 @@
  */
 var table_ns = {
 
-   //Show an error string which disappears on its own
+   // show an error string which disappears on its own
    add_error_element: function (errormsg) {
       $('body').prepend('<div id="error-msg">' + errormsg + '</div>');
       setTimeout(function(){
@@ -143,30 +143,30 @@ var table_ns = {
             $('#global_smart').prop('checked')
       );
       table.draw();
+   },
+
+   hideColumn: function(event, col){
+      var myClass = col.parentElement.className.split(' ')[0];
+      if (myClass){
+         var table = $('#data-table').DataTable();
+         table.column('.' + myClass).visible(false);
+      }
+      event.stopPropagation();
    }
 };
 
-
 $(document).ready(function () {
    var currRow = null;
-
-   // Add simple search field
+   var i = 0;
+   // add simple search field
    $('#data-table tfoot th.default').each(function () {
-      var title = $(this).text();
+      var title = bodyExplorer.textColumns[i];
+      i++;
       var name = this.getAttribute('name');
-
       $(this).html('<input class="text-search body-search" name="' + name + '" type="text" title="Use \'/\' to search with regex" placeholder="Search ' + title + '" />');
    });
 
-   // Add simple search but number field for the body ID
-   $('#data-table tfoot th.default-num').each(function () {
-      var title = $(this).text();
-      var name = this.getAttribute('name');
-
-      $(this).html('<input class="text-search body-search" name="' + name + '" type="number" placeholder="Search ' + title + '" />');
-   });
-
-   // Add Min / Max input fields
+   // add min / max input fields
    $('#data-table tfoot th.number').each(function () {
       var name = this.getAttribute('name');
       $(this).html('<div class="minmax">' +
@@ -189,16 +189,17 @@ $(document).ready(function () {
          columns: [{
             className: "bodyId text",
             title: 'Body ID',
-            name: 'id',
             data: 'body ID',
+            visible: bodyExplorer.columns['bodyId'].visible,
             width: '3%'
          },
          {
             title: 'Name',
             data: 'name',
-            name: 'nane',
             width: '10%',
-            className: "text",
+            className: "name text",
+            id: 'name',
+            visible: bodyExplorer.columns['name'].visible,
             render: function (data, type, row, meta) {
                return row.name ? row.name : '';
             }
@@ -206,8 +207,8 @@ $(document).ready(function () {
          {
             title: 'Status',
             data: 'status',
-            name: 'status',
-            className: "text",
+            className: "status text",
+            visible: bodyExplorer.columns['status'].visible,
             render: function (data, type, row, meta) {
                return row.status ? row.status : '';
             },
@@ -216,24 +217,24 @@ $(document).ready(function () {
          {
             title: 'PreSyn',
             data: 'PreSyn',
-            name: 'presyn',
             type: 'num',
             width: '6%',
-            className: "number"
+            className: "presyn number",
+            visible: bodyExplorer.columns['presyn'].visible,
          },
          {
             title: 'PostSyn',
             data: 'PostSyn',
-            name: 'postsyn',
             type: 'num',
             width: '6%',
-            className: "number"
+            className: "postsyn number",
+            visible: bodyExplorer.columns['postsyn'].visible,
          },
          {
             title: 'Assigned',
             data: 'assigned',
-            name: 'assigned',
-            className: "text",
+            className: "assigned text",
+            visible: bodyExplorer.columns['assigned'].visible,
             render: function (data, type, row, meta) {
                return row.assigned ? row.assigned : '';
             },
@@ -242,8 +243,8 @@ $(document).ready(function () {
          {
             title: 'User',
             data: 'user',
-            name: 'user',
-            className: "text",
+            className: "user text",
+            visible: bodyExplorer.columns['user'].visible,
             render: function (data, type, row, meta) {
                return row.user ? row.user : '';
             },
@@ -253,8 +254,8 @@ $(document).ready(function () {
             title: 'Size',
             data: 'size',
             type: 'num',
-            name: 'size',
-            className: "number",
+            className: "size number",
+            visible: bodyExplorer.columns['size'].visible,
             render: function (data, type, row, meta) {
 
                return row.size ? row.size : '';
@@ -264,9 +265,9 @@ $(document).ready(function () {
          {
             title: 'Comment',
             data: 'comment',
-            name: 'comment',
             width: '15%',
-            className: "text",
+            className: "comment text",
+            visible: bodyExplorer.columns['comment'].visible,
             render: function (data, type, row, meta) {
                return row.comment ? row.comment : '';
             }
@@ -290,7 +291,7 @@ $(document).ready(function () {
    var mins = document.getElementsByClassName('min');
    var maxs = document.getElementsByClassName('max');
 
-   // Custom filtering function which will search data in column four between two values
+   // custom filtering function which will search data in column four between two values
    $.fn.dataTable.ext.search.push (
        function (settings, data, dataIndex, myobject, row) {
 
@@ -323,7 +324,7 @@ $(document).ready(function () {
    );
 
 
-   // Search functionality for text input fields
+   // search functionality for text input fields
    if (table) {
       table.columns('.text').every(
             function () {
@@ -344,18 +345,24 @@ $(document).ready(function () {
                });
             });
 
-      // Search functionality for the two range filtering inputs to redraw on input
+      // search functionality for the two range filtering inputs to redraw on input
       $('.min, .max').keyup(function () {
          table.draw();
       });
 
-      // If checked, filter for named bodies only
+      // if checked, filter for named bodies only
       $('#show-name').change(function () {
          table_ns.showNamesOnly = this.checked;
          table.draw();
       });
+
+      $('#data-table').ready(function(){
+         $('#data-table thead th').append('<div title="Hide column" class="glyphicon glyphicon-eye-close hide-column" onclick="table_ns.hideColumn(event,this)" ></div>');
+         $('#reset-filters').css('display','block');
+      });
    }
 });
+
 
 /*
  * Make sure shark container stays at the top when scrolling because of a big table
