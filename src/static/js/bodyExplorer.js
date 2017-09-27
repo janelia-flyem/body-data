@@ -1,3 +1,4 @@
+// Namespace with helpful variables and functions for the body explorer
 var bodyExplorer = {
 
    jquery: 'static/components/jquery/dist/jquery.min.js',
@@ -14,7 +15,49 @@ var bodyExplorer = {
    // custom scripts
    galleryJS: 'static/js/gallery.js',
 
-   openGallery: function(){
+   // store some column information
+   columns: {
+      'bodyId': {
+            visible: true,
+            title: 'Body ID'
+         },
+      'name': {
+            visible: true,
+            title: 'Name'
+         },
+      'status': {
+            visible: true,
+            title: 'Status'
+         },
+      'presyn': {
+            visible: true,
+            title: 'PreSyn'
+         },
+      'postsyn': {
+            visible: true,
+            title: 'PostSyn'
+         },
+      'assigned': {
+            visible: true,
+            title: 'Assigned'
+         },
+      'user': {
+            visible: true,
+            title: 'User'
+         },
+      'size': {
+            visible: true,
+            title: 'Size'
+         },
+      'comment': {
+            visible: true,
+            title: 'Comment'
+         }
+   },
+
+   textColumns: ['Body ID', 'Name', 'Status', 'Assigned', 'User', 'Comment'],
+
+   openGallery: function() {
       var checked = {
          xy: true,
          xz: false,
@@ -23,7 +66,7 @@ var bodyExplorer = {
       table_ns.open_image_gallery(checked);
    },
 
-   requestData: function(){
+   requestData: function() {
 
       zip.workerScriptsPath = '/static/components/zip-js/WebContent/';
       var val = document.getElementById("uuid-input").value;
@@ -51,32 +94,6 @@ var bodyExplorer = {
 
                      // Output to console
                      console.log(strData);
-
-                     // // read the zip file  and create / override table_data
-                     // zip.createReader(new zip.BlobReader(blob), function(reader) {
-                     //
-                     //    // get all entries from the zip
-                     //    reader.getEntries(function(entries) {
-                     //       if (entries.length) {
-                     //
-                     //          // get first entry content as text
-                     //          entries[0].getData(new zip.TextWriter(), function(text) {
-                     //             // text contains the entry data as a String
-                     //             console.log(text);
-                     //
-                     //             // close the zip reader
-                     //             reader.close(function() {
-                     //                console.log('completed');
-                     //             });
-                     //
-                     //          }, function(current, total) {
-                     //             console.log('make some progress');
-                     //          });
-                     //       }
-                     //    });
-                     // }, function(error) {
-                     //    // onerror callback
-                     // });
                   }
                }
          );
@@ -87,13 +104,17 @@ var bodyExplorer = {
       }
    },
 
-   hideColumn: function(){
+   hideColumn: function() {
       var hideElement = $('#data-table').DataTable().columns(1);
       var toggle = hideElement.visible();
       hideElement.visible(!(toggle[0]));
    },
 
-   toggleOptions: function(){
+   toggleOptions: function() {
       $('#table-options-content').css();
+   },
+
+   safeString: function(string) {
+      return string.replace(' ','-');
    }
 };

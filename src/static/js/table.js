@@ -1,13 +1,9 @@
-// var body_table = {
-//    var url_datainstance = 'http://emdata1:8700/api/node/18979088f9d248d6ac428df4cea022fe/pb26-27-2-trm-eroded32_ffn-20170216-2_celis_cx2-2048_r10_0_seeded_64blksz_vol_skeletons'
-// };
-
-
 /**
  * Functions used to create table of body information
  */
 var table_ns = {
 
+   // show an error string which disappears on its own
    add_error_element: function (errormsg) {
       $('body').prepend('<div id="error-msg">' + errormsg + '</div>');
       setTimeout(function(){
@@ -147,29 +143,30 @@ var table_ns = {
             $('#global_smart').prop('checked')
       );
       table.draw();
+   },
+
+   hideColumn: function(event, col){
+      var myClass = col.parentElement.className.split(' ')[0];
+      if (myClass){
+         var table = $('#data-table').DataTable();
+         table.column('.' + myClass).visible(false);
+      }
+      event.stopPropagation();
    }
 };
 
 $(document).ready(function () {
    var currRow = null;
-
-   // Add simple search field
+   var i = 0;
+   // add simple search field
    $('#data-table tfoot th.default').each(function () {
-      var title = $(this).text();
+      var title = bodyExplorer.textColumns[i];
+      i++;
       var name = this.getAttribute('name');
-
-      $(this).html('<input class="text-search body-search" name="' + name + '" type="text" placeholder="Search ' + title + '" />');
+      $(this).html('<input class="text-search body-search" name="' + name + '" type="text" title="Use \'/\' to search with regex" placeholder="Search ' + title + '" />');
    });
 
-   // Add simple search but number field for the body ID
-   $('#data-table tfoot th.default-num').each(function () {
-      var title = $(this).text();
-      var name = this.getAttribute('name');
-
-      $(this).html('<input class="text-search body-search" name="' + name + '" type="number" placeholder="Search ' + title + '" />');
-   });
-
-   // Add Min / Max input fields
+   // add min / max input fields
    $('#data-table tfoot th.number').each(function () {
       var name = this.getAttribute('name');
       $(this).html('<div class="minmax">' +
@@ -185,20 +182,24 @@ $(document).ready(function () {
    if (table_data) {
 
       var table = $('#data-table').DataTable({
+         responsive: true,
          autoWidth: false,
          data: table_data.data,
          pageLength: 10,
          columns: [{
-            className: "bodyId number",
+            className: "bodyId text",
             title: 'Body ID',
             data: 'body ID',
+            visible: bodyExplorer.columns['bodyId'].visible,
             width: '3%'
          },
          {
             title: 'Name',
             data: 'name',
             width: '10%',
-            className: "text",
+            className: "name text",
+            id: 'name',
+            visible: bodyExplorer.columns['name'].visible,
             render: function (data, type, row, meta) {
                return row.name ? row.name : '';
             }
@@ -206,7 +207,8 @@ $(document).ready(function () {
          {
             title: 'Status',
             data: 'status',
-            className: "text",
+            className: "status text",
+            visible: bodyExplorer.columns['status'].visible,
             render: function (data, type, row, meta) {
                return row.status ? row.status : '';
             },
@@ -217,19 +219,22 @@ $(document).ready(function () {
             data: 'PreSyn',
             type: 'num',
             width: '6%',
-            className: "number"
+            className: "presyn number",
+            visible: bodyExplorer.columns['presyn'].visible,
          },
          {
             title: 'PostSyn',
             data: 'PostSyn',
             type: 'num',
             width: '6%',
-            className: "number"
+            className: "postsyn number",
+            visible: bodyExplorer.columns['postsyn'].visible,
          },
          {
             title: 'Assigned',
             data: 'assigned',
-            className: "text",
+            className: "assigned text",
+            visible: bodyExplorer.columns['assigned'].visible,
             render: function (data, type, row, meta) {
                return row.assigned ? row.assigned : '';
             },
@@ -238,7 +243,8 @@ $(document).ready(function () {
          {
             title: 'User',
             data: 'user',
-            className: "text",
+            className: "user text",
+            visible: bodyExplorer.columns['user'].visible,
             render: function (data, type, row, meta) {
                return row.user ? row.user : '';
             },
@@ -248,7 +254,8 @@ $(document).ready(function () {
             title: 'Size',
             data: 'size',
             type: 'num',
-            className: "number",
+            className: "size number",
+            visible: bodyExplorer.columns['size'].visible,
             render: function (data, type, row, meta) {
 
                return row.size ? row.size : '';
@@ -259,13 +266,15 @@ $(document).ready(function () {
             title: 'Comment',
             data: 'comment',
             width: '15%',
-            className: "text",
+            className: "comment text",
+            visible: bodyExplorer.columns['comment'].visible,
             render: function (data, type, row, meta) {
                return row.comment ? row.comment : '';
             }
          },
          {
             className: "shark",
+            name: 'shark',
             orderable: false,
             render: function (data, type, row, meta) {
                var ng = table_ns.generate_url_neuroglancer(row);
@@ -281,9 +290,8 @@ $(document).ready(function () {
 
    var mins = document.getElementsByClassName('min');
    var maxs = document.getElementsByClassName('max');
-   var text = document.getElementsByClassName('text-search');
 
-   /* Custom filtering function which will search data in column four between two values */
+   // custom filtering function which will search data in column four between two values
    $.fn.dataTable.ext.search.push (
        function (settings, data, dataIndex, myobject, row) {
 
@@ -311,56 +319,50 @@ $(document).ready(function () {
              result = result && (min <= value && value <= max);
           }
 
-          var cell = null;
-          // Loop through the elements which are default search elements
-          for (var j = 0; j < text.length; j++) {
-             cell = data[text[j].name];
-             var searchString = text[j].value;
-             if (searchString === '') {  // If not searching for anything, move on to other columns
-                continue;
-             }
-             if (searchString > 0 && cell === '') {   // Searching for something but cell is empty
-                return false;
-             }
-
-             //Check if comma separated values
-             var comma = false;
-             var sStrings = searchString.split(',');
-             if (cell) {
-                for (var s = 0; s < sStrings.length; s++) {
-                   comma = comma || cell.indexOf(sStrings[s]) !== -1;
-                }
-             }
-             result = result && comma;
-          }
           return result;
        }
    );
 
+
+   // search functionality for text input fields
    if (table) {
-
-      // Apply the search for regex search
-      table.columns().every(
-         function () {
-            $('input.text-search').on('keyup change', function (key) {
-               if (key.originalEvent.key === 'Enter'){
-                  table.draw();
-               }
+      table.columns('.text').every(
+            function () {
+               var column = this;
+               $('input', this.footer()).on('keyup change', function (key) {
+                  if (this.value.startsWith('/')) {
+                     column.search(this.value.substr(1),
+                           true, // regex search
+                           false // no smart search
+                     ).draw();
+                  }
+                  else {
+                     column.search(this.value,
+                           false, // no regex search
+                           true // but smart search
+                     ).draw();
+                  }
+               });
             });
-         });
 
-      // Event listener to the two range filtering inputs to redraw on input
+      // search functionality for the two range filtering inputs to redraw on input
       $('.min, .max').keyup(function () {
          table.draw();
       });
 
-      // If checked, filter for named bodies only
+      // if checked, filter for named bodies only
       $('#show-name').change(function () {
          table_ns.showNamesOnly = this.checked;
          table.draw();
       });
+
+      $('#data-table').ready(function(){
+         $('#data-table thead th').append('<div title="Hide column" class="glyphicon glyphicon-eye-close hide-column" onclick="table_ns.hideColumn(event,this)" ></div>');
+         $('#reset-filters').css('display','block');
+      });
    }
 });
+
 
 /*
  * Make sure shark container stays at the top when scrolling because of a big table
