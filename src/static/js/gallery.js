@@ -98,11 +98,11 @@ var gallery_ns = {
 
          // Build columns object dependent on checkboxes checked
          gallery_columns.push({
-                  class: 'column-xy',
                   title: 'XY',
                   visible: true,
                   width: '25%',
                   data: null,
+                  class: 'column-xy',
                   render: function (data, type, row, meta) {
                      if (row.showxy) {
                         if (table_data.data[meta.row]) {
@@ -121,6 +121,7 @@ var gallery_ns = {
                   visible: true,
                   width: '25%',
                   data: null,
+                  class: 'column-xz',
                   render: function (data, type, row, meta) {
                      if (row.showxz) {
                         if (table_data.data[meta.row]) {
@@ -135,12 +136,11 @@ var gallery_ns = {
          );
 
          gallery_columns.push({
-
-                  class: 'column-yz',
                   title: 'YZ',
                   visible: true,
                   width: '25%',
                   data: null,
+                  class: 'column-yz',
                   render: function (data, type, row, meta) {
                      if (row.showyz) {
                         if (table_data.data[meta.row]) {

@@ -188,7 +188,7 @@ label input[type=checkbox]{
 
 .hide-column{
    font-size: 0.8em;
-   color: #999;
+   color: #DDD;
    float: right;
    margin-top: 2px;
    margin-right: 2px;
@@ -200,7 +200,7 @@ label input[type=checkbox]{
 
 .hide-column:hover {
    font-size: 1em;
-   color: #999;
+   color: #AAA;
    float: right;
 }
 

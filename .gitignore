@@ -3,4 +3,6 @@ node_modules
 body-data.wsgi
 body-data.default_settings
 Gruntfile.js
+src/settings_private.py
+src/settings_private.pyc
 .idea
