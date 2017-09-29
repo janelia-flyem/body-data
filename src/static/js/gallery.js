@@ -1,7 +1,7 @@
 /*
  * Create gallery of body images for the filtered list of body IDs defined in the body table
  */
-var gallery_ns = {
+var n_gallery = {
 
    bodyMatrix: null,
 
@@ -42,25 +42,52 @@ var gallery_ns = {
          doc.head.appendChild(link)
       }
 
-      var scripts = new Array();
-      scripts.push(bodyExplorer.galleryJS);
-      scripts.push(bodyExplorer.jquery);
-      for (var j = 0; j < scripts.length; j++) {
-         var script = doc.createElement('script');
-         script.src = location + scripts[j];
-         doc.head.appendChild(script);
-      }
-
       // Create gallery container
       var row = doc.createElement('div');
       row.classList.add('row');
-      var container = doc.createElement('div');
-      container.appendChild(row);
+      var galleryContainer = doc.createElement('div');
+      galleryContainer.appendChild(row);
       this.tableElem = doc.createElement('table');
       this.tableElem.id = 'gallery-table';
       this.tableElem.classList.add('table', 'table-striped');
+
+      // var tHead = doc.createElement('thead');
+      // var tRow = doc.createElement('trow');
+      // var th = doc.createElement('th');
+      // th.append('hi!');
+      // tHead.appendChild(tRow);
+      // tRow.appendChild(th);
+      // this.tableElem.appendChild(tHead);
       row.appendChild(this.tableElem);
-      doc.body.append(container);
+
+      var options = doc.createElement('div');
+
+      var lxy = doc.createElement('label');
+      var lyz = doc.createElement('label');
+      var lxz = doc.createElement('label');
+
+      lxy.textContent = 'XY';
+      lyz.textContent = 'YZ';
+      lxz.textContent = 'XZ';
+
+      var xy = doc.createElement('input');
+      var xz = doc.createElement('input');
+      var yz = doc.createElement('input');
+
+      lxy.appendChild(xy);
+      lxz.appendChild(xz);
+      lyz.appendChild(yz);
+
+      xy.type = 'checkbox';
+      xz.type = 'checkbox';
+      yz.type = 'checkbox';
+
+      options.appendChild(lxy);
+      options.appendChild(lxz);
+      options.appendChild(lyz);
+
+      doc.body.appendChild(options);
+      doc.body.appendChild(galleryContainer);
 
       // Set Datatable
       $(doc).ready((function () {
@@ -156,7 +183,7 @@ var gallery_ns = {
 
          $(this.tableElem).DataTable({
                autoWidth: false,
-               data: gallery_ns.bodyMatrix,
+               data: n_gallery.bodyMatrix,
                pageLength: 50,
                width: '500px',
                columns: gallery_columns,
@@ -178,5 +205,38 @@ var gallery_ns = {
             })
 
       }).bind(this))
+
+      var scripts = new Array();
+      // scripts.push(bodyExplorer.galleryJS);
+      scripts.push(bodyExplorer.galleryTransformations);
+      scripts.push(bodyExplorer.jquery);
+      scripts.push(bodyExplorer.dataTablesJS);
+
+      for (var j = 0; j < scripts.length; j++) {
+         var script = doc.createElement('script');
+         script.src = location + '/' + scripts[j];
+         doc.head.appendChild(script);
+      }
+
+      xy.onclick = function(){
+         if (xy.checked){
+            // n_gallery.bodyMatrix.map(function (elem){
+            //    elem.showxy = true;
+            // });
+            $('input[data-view=xy]').each = function(){
+               this.checked = true;
+            }
+         }
+         else {
+            // n_gallery.bodyMatrix.map(function (elem){
+            //    elem.showxy = false;
+            // });
+            $('input[data-view=xy]').each = function(){
+               this.checked = false;
+            }
+         }
+         // $('#gallery-table').DataTable().rows().invalidate().draw();
+      }
+
    }
 };

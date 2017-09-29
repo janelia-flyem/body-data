@@ -10,6 +10,8 @@ var bodyExplorer = {
 
    // custom scripts
    galleryJS: 'static/js/gallery.js',
+   dataTablesJS: 'static/components/datatables.net/js/jquery.dataTables.js',
+   galleryTransformations: 'static/js/galleryTransformations.js',
 
    // store some column information
    columns: {
@@ -59,7 +61,7 @@ var bodyExplorer = {
          xz: false,
          yz: false
       };
-      table_ns.open_image_gallery(checked);
+      n_table.open_image_gallery(checked);
    },
 
    hideColumn: function() {
