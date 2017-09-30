@@ -219,24 +219,30 @@ var n_gallery = {
       }
 
       xy.onclick = function(){
-         if (xy.checked){
-            // n_gallery.bodyMatrix.map(function (elem){
-            //    elem.showxy = true;
-            // });
-            $('input[data-view=xy]').each = function(){
-               this.checked = true;
-            }
-         }
-         else {
-            // n_gallery.bodyMatrix.map(function (elem){
-            //    elem.showxy = false;
-            // });
-            $('input[data-view=xy]').each = function(){
-               this.checked = false;
-            }
-         }
-         // $('#gallery-table').DataTable().rows().invalidate().draw();
-      }
+         var isCheched = this.checked;
 
+         n_gallery.bodyMatrix.map(function (elem){
+            elem.showxy = isCheched;
+         });
+         $('#gallery-table',doc).DataTable().rows().invalidate().draw();
+      };
+
+      xz.onclick = function(){
+         var isCheched = this.checked;
+
+         n_gallery.bodyMatrix.map(function (elem){
+            elem.showxz = isCheched;
+         });
+         $('#gallery-table',doc).DataTable().rows().invalidate().draw();
+      };
+
+      yz.onclick = function(){
+         var isCheched = this.checked;
+
+         n_gallery.bodyMatrix.map(function (elem){
+            elem.showyz = isCheched;
+         });
+         $('#gallery-table',doc).DataTable().rows().invalidate().draw();
+      }
    }
 };
