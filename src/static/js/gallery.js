@@ -51,13 +51,24 @@ var n_gallery = {
       this.tableElem.id = 'gallery-table';
       this.tableElem.classList.add('table', 'table-striped');
 
-      // var tHead = doc.createElement('thead');
-      // var tRow = doc.createElement('trow');
-      // var th = doc.createElement('th');
-      // th.append('hi!');
-      // tHead.appendChild(tRow);
-      // tRow.appendChild(th);
-      // this.tableElem.appendChild(tHead);
+      var galleryHeader = ['Body ID', 'XY', 'XZ', 'YZ'];
+      var tHead = doc.createElement('thead');
+      var tRow = doc.createElement('tr');
+      for (var j = 0; j < galleryHeader.length; j++){
+         var th = doc.createElement('th');
+         var label = doc.createElement('label');
+         if (j > 0){
+            var input = doc.createElement('input');
+            input.type = "checkbox";
+            input.id = 'col-' + galleryHeader[j];
+            label.appendChild(input);
+         }
+         label.append(galleryHeader[j]);
+         th.append(label);
+         tRow.appendChild(th);
+      }
+      tHead.appendChild(tRow);
+      this.tableElem.appendChild(tHead);
       row.appendChild(this.tableElem);
 
       var options = doc.createElement('div');
@@ -103,7 +114,6 @@ var n_gallery = {
 
          var gallery_columns = [
             {
-               title: 'Body ID',
                width: '8%',
                data: 'bodyId',
                render: function (data, type, row, meta) {
@@ -125,7 +135,6 @@ var n_gallery = {
 
          // Build columns object dependent on checkboxes checked
          gallery_columns.push({
-                  title: 'XY',
                   visible: true,
                   width: '25%',
                   data: null,
@@ -144,7 +153,6 @@ var n_gallery = {
          );
 
          gallery_columns.push({
-                  title: 'XZ',
                   visible: true,
                   width: '25%',
                   data: null,
@@ -163,7 +171,6 @@ var n_gallery = {
          );
 
          gallery_columns.push({
-                  title: 'YZ',
                   visible: true,
                   width: '25%',
                   data: null,
@@ -204,7 +211,7 @@ var n_gallery = {
                dt.invalidate();
             })
 
-      }).bind(this))
+      }).bind(this));
 
       var scripts = new Array();
       // scripts.push(bodyExplorer.galleryJS);
@@ -218,29 +225,23 @@ var n_gallery = {
          doc.head.appendChild(script);
       }
 
-      xy.onclick = function(){
-         var isCheched = this.checked;
-
+      $('#col-XY',doc).onclick = function(){
          n_gallery.bodyMatrix.map(function (elem){
-            elem.showxy = isCheched;
+            elem.showxy = this.checked;
          });
          $('#gallery-table',doc).DataTable().rows().invalidate().draw();
       };
 
-      xz.onclick = function(){
-         var isCheched = this.checked;
-
+      $('#col-XY',doc).onclick = function(){
          n_gallery.bodyMatrix.map(function (elem){
-            elem.showxz = isCheched;
+            elem.showxz = this.checked;
          });
          $('#gallery-table',doc).DataTable().rows().invalidate().draw();
       };
 
-      yz.onclick = function(){
-         var isCheched = this.checked;
-
+      $('#col-XY',doc).onclick = function(){
          n_gallery.bodyMatrix.map(function (elem){
-            elem.showyz = isCheched;
+            elem.showyz = this.checked;
          });
          $('#gallery-table',doc).DataTable().rows().invalidate().draw();
       }
