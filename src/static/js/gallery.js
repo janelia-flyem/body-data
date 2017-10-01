@@ -70,34 +70,6 @@ var n_gallery = {
       tHead.appendChild(tRow);
       this.tableElem.appendChild(tHead);
       row.appendChild(this.tableElem);
-
-      var options = doc.createElement('div');
-
-      var lxy = doc.createElement('label');
-      var lyz = doc.createElement('label');
-      var lxz = doc.createElement('label');
-
-      lxy.textContent = 'XY';
-      lyz.textContent = 'YZ';
-      lxz.textContent = 'XZ';
-
-      var xy = doc.createElement('input');
-      var xz = doc.createElement('input');
-      var yz = doc.createElement('input');
-
-      lxy.appendChild(xy);
-      lxz.appendChild(xz);
-      lyz.appendChild(yz);
-
-      xy.type = 'checkbox';
-      xz.type = 'checkbox';
-      yz.type = 'checkbox';
-
-      options.appendChild(lxy);
-      options.appendChild(lxz);
-      options.appendChild(lyz);
-
-      doc.body.appendChild(options);
       doc.body.appendChild(galleryContainer);
 
       // Set Datatable
@@ -225,25 +197,43 @@ var n_gallery = {
          doc.head.appendChild(script);
       }
 
-      $('#col-XY',doc).onclick = function(){
-         n_gallery.bodyMatrix.map(function (elem){
-            elem.showxy = this.checked;
-         });
-         $('#gallery-table',doc).DataTable().rows().invalidate().draw();
-      };
+      $('#col-XY',doc).on('click', function(){
+         // n_gallery.bodyMatrix.map(function (elem){
+         //    elem.showxy = this.checked;
+         // }, this);
+         var tbl = $('#gallery-table',doc).DataTable();
+         var dArray = tbl.rows().data();
+         for (var i = 0, max = dArray.length; i < max; i++) {
+            dArray[i].showxy = this.checked;
+         }
+         tbl.rows().invalidate().draw();
+      });
 
-      $('#col-XY',doc).onclick = function(){
-         n_gallery.bodyMatrix.map(function (elem){
-            elem.showxz = this.checked;
-         });
-         $('#gallery-table',doc).DataTable().rows().invalidate().draw();
-      };
+      $('#col-XZ',doc).on('click', function(){
+         // n_gallery.bodyMatrix.map(function (elem){
+         //    elem.showxz = this.checked;
+         // }, this);
+         var tbl = $('#gallery-table',doc).DataTable();
+         var dArray = tbl.rows().data();
+         for (var i = 0, max = dArray.length; i < max; i++) {
+            dArray[i].showxz = this.checked;
+         }
+         tbl.rows().invalidate().draw();
+      });
 
-      $('#col-XY',doc).onclick = function(){
-         n_gallery.bodyMatrix.map(function (elem){
-            elem.showyz = this.checked;
-         });
-         $('#gallery-table',doc).DataTable().rows().invalidate().draw();
-      }
+      $('#col-YZ',doc).on('click', function(){
+         var tbl = $('#gallery-table',doc).DataTable();
+         var dArray = tbl.rows().data();
+         for (var i = 0, max = dArray.length; i < max; i++) {
+            dArray[i].showyz = this.checked;
+         }
+         // tbl.rows().data().forEach(function(elem){
+         //    elem.showyz = this.checked;
+         // }, this);
+         // n_gallery.bodyMatrix.map(function (elem){
+         //    elem.showyz = this.checked;
+         // }, this);
+         tbl.rows().invalidate().draw();
+      });
    }
 };
