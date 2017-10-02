@@ -16,7 +16,7 @@
             <div class="shark-window">
                <div id="shark-error" ></div>
                <div id="shark-container-bbox">
-                  <div id="shark-close" class="glyphicon glyphicon-remove"  onclick="table_ns.hide_shark()"></div>
+                  <div id="shark-close" class="glyphicon glyphicon-remove"  onclick="n_table.hide_shark()"></div>
                   <div id="shark-container"></div>
                   <div id="shark-coords"></div>
                </div>
@@ -76,7 +76,7 @@
                   <th class="number" name="7"></th>
                   <th class="default" name="8"></th> {# Commment #}
                   <th class="reset">
-                     <input id="reset-filters" style="display: none" class="btn btn-default reset-button btn-sm" type="button" title="Empty all search fields and reset table" onclick="table_ns.resetFilter()" value="Reset Filters"/>
+                     <input id="reset-filters" style="display: none" class="btn btn-default reset-button btn-sm" type="button" title="Empty all search fields and reset table" onclick="n_table.resetFilter()" value="Reset Filters"/>
                   </th>
                </tr>
                </tfoot>
@@ -98,6 +98,10 @@
          bodyExplorer.customCSS = "{{ url_for('static', filename='css/overrides.css') }}";
          bodyExplorer.bootstrapCSS = "{{ url_for('static', filename='components/bootstrap/dist/css/bootstrap.min.css')}}";
          bodyExplorer.datatableCSS = "{{ url_for('static', filename='components/datatables.net-bs/css/dataTables.bootstrap.css')}}";
+
+         // env variables
+         bodyExplorer.sharkUrl = "{{ shark_url }}";
+         bodyExplorer.galleryUrlBase = "{{ gallery_urlbase }}";
       </script>
 
       <!-- contrib dependencies -->

@@ -30,3 +30,5 @@ You can deactivate the environment using
 `deactivate`
 
 on your commandline.
+
+Create a new file in src called settings_private.py as a copy of settings.py. Fill in all the values for the values requested

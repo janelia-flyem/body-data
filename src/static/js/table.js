@@ -1,7 +1,7 @@
 /**
  * Functions used to create table of body information
  */
-var table_ns = {
+var n_table = {
 
    // show an error string which disappears on its own
    add_error_element: function (errormsg) {
@@ -47,8 +47,8 @@ var table_ns = {
 
    generateSharkRequest: function(bodyId) {
          // Test if currently there is a shark displayed
-         if (!table_ns.showShark) {
-            var url = table_ns.getSharkviewerUrl(bodyId);
+         if (!n_table.showShark) {
+            var url = n_table.getSharkviewerUrl(bodyId);
             var swcRequest = new Request(url, {method: 'GET'});
 
             fetch(swcRequest)
@@ -57,7 +57,7 @@ var table_ns = {
                           return resp.text();
                        }
                        else {
-                          table_ns.add_error_element("No SharkView for this body available, sorry!");
+                          n_table.add_error_element("No SharkView for this body available, sorry!");
                        }
                     }
                 ).then (
@@ -81,15 +81,15 @@ var table_ns = {
                       });
                       s.init();
                       s.animate();
-                      table_ns.showShark = true;
+                      n_table.showShark = true;
                    }
                 }
             );
          } else { //If there is a Shark visible, empty the DOM elements
             $('#shark-container').empty();
             $('#shark-coords').empty();
-            table_ns.showShark = false;
-            table_ns.generateSharkRequest(bodyId);
+            n_table.showShark = false;
+            n_table.generateSharkRequest(bodyId);
          }
    },
 
@@ -97,7 +97,7 @@ var table_ns = {
       $('#shark-container').empty();
       $('#shark-coords').empty();
       $('#shark-container-bbox').css('display', 'none');
-      table_ns.showShark = false;
+      n_table.showShark = false;
    },
 
    get_filtered_ids: function () {
@@ -116,13 +116,13 @@ var table_ns = {
    selected_bodyIds: null,
 
    open_image_gallery: function (checked) {
-      selected_bodyIds = table_ns.get_filtered_ids();
-      gallery_ns.createGallery(selected_bodyIds, checked);
+      selected_bodyIds = n_table.get_filtered_ids();
+      n_gallery.createGallery(selected_bodyIds, checked);
    },
 
-   resetFilter: function (){
+   resetFilter: function () {
       $('#show-name').prop('checked', false);
-      table_ns.showNamesOnly = false;
+      n_table.showNamesOnly = false;
 
       $('.body-search').val('');
 
@@ -136,7 +136,7 @@ var table_ns = {
 
    bodyIds: null,
 
-   updateSearch: function(){
+   updateSearch: function() {
       var table = $('#data-table').DataTable();
       table.search(this.value,
             $('#global_regex').prop('checked'),
@@ -277,10 +277,10 @@ $(document).ready(function () {
             name: 'shark',
             orderable: false,
             render: function (data, type, row, meta) {
-               var ng = table_ns.generate_url_neuroglancer(row);
+               var ng = n_table.generate_url_neuroglancer(row);
                var bId = row['body ID'];
-               var sharkLink = '<a onclick="table_ns.generateSharkRequest(' + bId + ')") ><img class="shark-logo" src="' + bodyExplorer.sharklogo + '" /> </a>';
-               var sharkImg = '<img src="/static/files/shark.png" class="shark-logo" onclick="table_ns.generateSharkRequest(' + bId + ')") \>';
+               var sharkLink = '<a onclick="n_table.generateSharkRequest(' + bId + ')") ><img class="shark-logo" src="' + bodyExplorer.sharklogo + '" /> </a>';
+               var sharkImg = '<img src="/static/files/shark.png" class="shark-logo" onclick="n_table.generateSharkRequest(' + bId + ')") \>';
                return ng + sharkLink;
             },
             width: '5%'
@@ -292,14 +292,14 @@ $(document).ready(function () {
    var maxs = document.getElementsByClassName('max');
 
    // custom filtering function which will search data in column four between two values
-   $.fn.dataTable.ext.search.push (
+   $.fn.dataTable.ext.search.push(
        function (settings, data, dataIndex, myobject, row) {
 
           if (settings.nTable.id === 'gallery-table') {
              return true;
           }
           // check if showNamesOnly is checked
-          if (table_ns.showNamesOnly && data[1] == "") {
+          if (n_table.showNamesOnly && data[1] == "") {
              return false;
           }
 
@@ -352,12 +352,12 @@ $(document).ready(function () {
 
       // if checked, filter for named bodies only
       $('#show-name').change(function () {
-         table_ns.showNamesOnly = this.checked;
+         n_table.showNamesOnly = this.checked;
          table.draw();
       });
 
       $('#data-table').ready(function(){
-         $('#data-table thead th').append('<div title="Hide column" class="glyphicon glyphicon-eye-close hide-column" onclick="table_ns.hideColumn(event,this)" ></div>');
+         $('#data-table thead th').append('<div title="Hide column" class="glyphicon glyphicon-eye-close hide-column" onclick="n_table.hideColumn(event,this)" ></div>');
          $('#reset-filters').css('display','block');
       });
    }

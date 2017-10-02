@@ -1,7 +1,7 @@
 /*
  * Create gallery of body images for the filtered list of body IDs defined in the body table
  */
-var gallery_ns = {
+var n_gallery = {
 
    bodyMatrix: null,
 
@@ -42,25 +42,35 @@ var gallery_ns = {
          doc.head.appendChild(link)
       }
 
-      var scripts = new Array();
-      scripts.push(bodyExplorer.galleryJS);
-      scripts.push(bodyExplorer.jquery);
-      for (var j = 0; j < scripts.length; j++) {
-         var script = doc.createElement('script');
-         script.src = location + scripts[j];
-         doc.head.appendChild(script);
-      }
-
       // Create gallery container
       var row = doc.createElement('div');
       row.classList.add('row');
-      var container = doc.createElement('div');
-      container.appendChild(row);
+      var galleryContainer = doc.createElement('div');
+      galleryContainer.appendChild(row);
       this.tableElem = doc.createElement('table');
       this.tableElem.id = 'gallery-table';
       this.tableElem.classList.add('table', 'table-striped');
+
+      var galleryHeader = ['Body ID', 'XY', 'XZ', 'YZ'];
+      var tHead = doc.createElement('thead');
+      var tRow = doc.createElement('tr');
+      for (var j = 0; j < galleryHeader.length; j++){
+         var th = doc.createElement('th');
+         var label = doc.createElement('label');
+         if (j > 0){
+            var input = doc.createElement('input');
+            input.type = "checkbox";
+            input.id = 'col-' + galleryHeader[j];
+            label.appendChild(input);
+         }
+         label.append(galleryHeader[j]);
+         th.append(label);
+         tRow.appendChild(th);
+      }
+      tHead.appendChild(tRow);
+      this.tableElem.appendChild(tHead);
       row.appendChild(this.tableElem);
-      doc.body.append(container);
+      doc.body.appendChild(galleryContainer);
 
       // Set Datatable
       $(doc).ready((function () {
@@ -76,7 +86,6 @@ var gallery_ns = {
 
          var gallery_columns = [
             {
-               title: 'Body ID',
                width: '8%',
                data: 'bodyId',
                render: function (data, type, row, meta) {
@@ -98,17 +107,16 @@ var gallery_ns = {
 
          // Build columns object dependent on checkboxes checked
          gallery_columns.push({
-                  class: 'column-xy',
-                  title: 'XY',
                   visible: true,
                   width: '25%',
                   data: null,
+                  class: 'column-xy',
                   render: function (data, type, row, meta) {
                      if (row.showxy) {
                         if (table_data.data[meta.row]) {
                            var offset = (table_data.data[meta.row]['dvid coord']).replace(/\,/g, '_');
                            var url = bodyExplorer.galleryUrlBase + bodyExplorer.uuid + bodyExplorer.galleryUrlXY + offset;
-                           return '<img alt="'+ offset +'" class="body-image" src="' + url + '"/></img>';
+                           return '<img alt="" class="body-image" src="' + url + '"/></img>';
                         }
                      }
                      return '';
@@ -117,16 +125,16 @@ var gallery_ns = {
          );
 
          gallery_columns.push({
-                  title: 'XZ',
                   visible: true,
                   width: '25%',
                   data: null,
+                  class: 'column-xz',
                   render: function (data, type, row, meta) {
                      if (row.showxz) {
                         if (table_data.data[meta.row]) {
                            var offset = (table_data.data[meta.row]['dvid coord']).replace(/\,/g, '_');
                            var url = bodyExplorer.galleryUrlBase + bodyExplorer.uuid + bodyExplorer.galleryUrlXZ + offset;
-                           return '<img alt="'+ offset +'" class="body-image" src="' + url + '"/></img>';
+                           return '<img alt="" class="body-image" src="' + url + '"/></img>';
                         }
                      }
                      return '';
@@ -135,18 +143,16 @@ var gallery_ns = {
          );
 
          gallery_columns.push({
-
-                  class: 'column-yz',
-                  title: 'YZ',
                   visible: true,
                   width: '25%',
                   data: null,
+                  class: 'column-yz',
                   render: function (data, type, row, meta) {
                      if (row.showyz) {
                         if (table_data.data[meta.row]) {
                            var offset = (table_data.data[meta.row]['dvid coord']).replace(/\,/g, '_');
                            var url = bodyExplorer.galleryUrlBase + bodyExplorer.uuid + bodyExplorer.galleryUrlYZ + offset;
-                           return '<img alt="'+ offset +'" class="body-image" src="' + url + '"/></img>';
+                           return '<img alt="" class="body-image" src="' + url + '"/></img>';
                         }
                      }
                      return '';
@@ -156,7 +162,7 @@ var gallery_ns = {
 
          $(this.tableElem).DataTable({
                autoWidth: false,
-               data: gallery_ns.bodyMatrix,
+               data: n_gallery.bodyMatrix,
                pageLength: 50,
                width: '500px',
                columns: gallery_columns,
@@ -177,6 +183,45 @@ var gallery_ns = {
                dt.invalidate();
             })
 
-      }).bind(this))
+      }).bind(this));
+
+      var scripts = new Array();
+      // scripts.push(bodyExplorer.galleryJS);
+      scripts.push(bodyExplorer.galleryTransformations);
+      scripts.push(bodyExplorer.jquery);
+      scripts.push(bodyExplorer.dataTablesJS);
+
+      for (var j = 0; j < scripts.length; j++) {
+         var script = doc.createElement('script');
+         script.src = location + '/' + scripts[j];
+         doc.head.appendChild(script);
+      }
+
+      $('#col-XY',doc).on('click', function(){
+         var tbl = $('#gallery-table',doc).DataTable();
+         var dArray = tbl.rows().data();
+         for (var i = 0, max = dArray.length; i < max; i++) {
+            dArray[i].showxy = this.checked;
+         }
+         tbl.rows().invalidate().draw();
+      });
+
+      $('#col-XZ',doc).on('click', function(){
+         var tbl = $('#gallery-table',doc).DataTable();
+         var dArray = tbl.rows().data();
+         for (var i = 0, max = dArray.length; i < max; i++) {
+            dArray[i].showxz = this.checked;
+         }
+         tbl.rows().invalidate().draw();
+      });
+
+      $('#col-YZ',doc).on('click', function(){
+         var tbl = $('#gallery-table',doc).DataTable();
+         var dArray = tbl.rows().data();
+         for (var i = 0, max = dArray.length; i < max; i++) {
+            dArray[i].showyz = this.checked;
+         }
+         tbl.rows().invalidate().draw();
+      });
    }
 };
