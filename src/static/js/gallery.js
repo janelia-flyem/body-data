@@ -116,7 +116,7 @@ var n_gallery = {
                         if (table_data.data[meta.row]) {
                            var offset = (table_data.data[meta.row]['dvid coord']).replace(/\,/g, '_');
                            var url = bodyExplorer.galleryUrlBase + bodyExplorer.uuid + bodyExplorer.galleryUrlXY + offset;
-                           return '<img alt="'+ offset +'" class="body-image" src="' + url + '"/></img>';
+                           return '<img alt="" class="body-image" src="' + url + '"/></img>';
                         }
                      }
                      return '';
@@ -134,7 +134,7 @@ var n_gallery = {
                         if (table_data.data[meta.row]) {
                            var offset = (table_data.data[meta.row]['dvid coord']).replace(/\,/g, '_');
                            var url = bodyExplorer.galleryUrlBase + bodyExplorer.uuid + bodyExplorer.galleryUrlXZ + offset;
-                           return '<img alt="'+ offset +'" class="body-image" src="' + url + '"/></img>';
+                           return '<img alt="" class="body-image" src="' + url + '"/></img>';
                         }
                      }
                      return '';
@@ -152,7 +152,7 @@ var n_gallery = {
                         if (table_data.data[meta.row]) {
                            var offset = (table_data.data[meta.row]['dvid coord']).replace(/\,/g, '_');
                            var url = bodyExplorer.galleryUrlBase + bodyExplorer.uuid + bodyExplorer.galleryUrlYZ + offset;
-                           return '<img alt="'+ offset +'" class="body-image" src="' + url + '"/></img>';
+                           return '<img alt="" class="body-image" src="' + url + '"/></img>';
                         }
                      }
                      return '';
@@ -198,9 +198,6 @@ var n_gallery = {
       }
 
       $('#col-XY',doc).on('click', function(){
-         // n_gallery.bodyMatrix.map(function (elem){
-         //    elem.showxy = this.checked;
-         // }, this);
          var tbl = $('#gallery-table',doc).DataTable();
          var dArray = tbl.rows().data();
          for (var i = 0, max = dArray.length; i < max; i++) {
@@ -210,9 +207,6 @@ var n_gallery = {
       });
 
       $('#col-XZ',doc).on('click', function(){
-         // n_gallery.bodyMatrix.map(function (elem){
-         //    elem.showxz = this.checked;
-         // }, this);
          var tbl = $('#gallery-table',doc).DataTable();
          var dArray = tbl.rows().data();
          for (var i = 0, max = dArray.length; i < max; i++) {
@@ -227,12 +221,6 @@ var n_gallery = {
          for (var i = 0, max = dArray.length; i < max; i++) {
             dArray[i].showyz = this.checked;
          }
-         // tbl.rows().data().forEach(function(elem){
-         //    elem.showyz = this.checked;
-         // }, this);
-         // n_gallery.bodyMatrix.map(function (elem){
-         //    elem.showyz = this.checked;
-         // }, this);
          tbl.rows().invalidate().draw();
       });
    }

@@ -120,7 +120,7 @@ var n_table = {
       n_gallery.createGallery(selected_bodyIds, checked);
    },
 
-   resetFilter: function (){
+   resetFilter: function () {
       $('#show-name').prop('checked', false);
       n_table.showNamesOnly = false;
 
@@ -136,7 +136,7 @@ var n_table = {
 
    bodyIds: null,
 
-   updateSearch: function(){
+   updateSearch: function() {
       var table = $('#data-table').DataTable();
       table.search(this.value,
             $('#global_regex').prop('checked'),
@@ -292,7 +292,7 @@ $(document).ready(function () {
    var maxs = document.getElementsByClassName('max');
 
    // custom filtering function which will search data in column four between two values
-   $.fn.dataTable.ext.search.push (
+   $.fn.dataTable.ext.search.push(
        function (settings, data, dataIndex, myobject, row) {
 
           if (settings.nTable.id === 'gallery-table') {
