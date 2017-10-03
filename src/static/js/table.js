@@ -269,7 +269,7 @@ $(document).ready(function () {
             className: "comment text",
             visible: bodyExplorer.columns['comment'].visible,
             render: function (data, type, row, meta) {
-               return row.comment ? row.comment : '';
+               return row.comment ? '<div title="' + row.comment + '">' + row.comment + '</div>' : '';
             }
          },
          {
