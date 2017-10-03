@@ -5,5 +5,5 @@ body-data.default_settings
 Gruntfile.js
 src/settings_private.py
 src/settings_private.pyc
-settings/__pychache__
+src/__pycache__/
 .idea
