@@ -32,37 +32,29 @@
       <!-- dataset information and options -->
       <div class="row">
          <!-- dataset information -->
-         <div class="col-sm-6 col-md-6 col-lg-10" id="table-metadata">
+         <div class="col-sm-6 col-md-6 col-lg-8" id="table-metadata">
             <h5>UUID: {{ uuid }}</h5>
+            <div id='level3'>
+            </div>
          </div>
          <!-- options -->
-         <div class="col-sm-3 col-md-3 col-lg-1" id="gallery-actions">
-            <!-- <div class="gallery-options" style="display: none"> -->
-            <div class="gallery-options">
-               <button style="display: none" type="button" class="btn btn-default btn-sm" data-toggle="collapse" data-target="#mydemo">Table options</button>
-               <div id="mydemo" class="collapse">
-                  <div class="form-group show-columns">
-                     <label class="control-label">Show columns</label>
-                     <div>
-                        <select class="form-control" id="show-columns" name="columns" multiple>
-                        </select>
+         <div class="col-sm-3 col-md-3 col-lg-4" id="gallery-actions">
+            <div class="row">
+               <div class="col-sm-6 col-md-6 col-lg-4" id="gallery-actions">
+                  <select class='form-control dropdown input-sm' id="select-level1" onchange="dropdown.fillSecondLevel(this.value)"></select>
+               </div>
+               <div class="col-sm-6 col-md-6 col-lg-4" id="gallery-actions">
+                  <select class='form-control dropdown input-sm' id="select-level2" onchange="dropdown.fillThirdLevel(this.value)"></select>
+               </div>
+               <div class="col-sm-6 col-md-6 col-lg-4" id="gallery-actions">
+                  <div id="gallery-actions">
+                     <div class="gallery-options">
+                        <input class="btn btn-default gallery-button btn-sm" type="button" onclick="bodyExplorer.openGallery()" value="Gallery"/>
                      </div>
                   </div>
                </div>
             </div>
-         </div>
-         <!-- gallery -->
-         <div class="dropdown">
-            <select id="select-level1" onchange="dropdown.fillSecondLevel(this.value)"></select>
-            <select id="select-level2" onchange="dropdown.fillThirdLevel(this.value)"></select>
-            <div id="level3">
-
-            </div>
-         </div>
-         <div class="col-sm-3 col-md-3 col-lg-1" id="gallery-actions">
-            <div class="gallery-options">
-               <input class="btn btn-default gallery-button btn-sm" type="button" onclick="bodyExplorer.openGallery()" value="Gallery"/>
-            </div>
+            <!-- <div class="gallery-options" style="display: none"> -->
          </div>
       </div>
       <!-- table data -->
@@ -126,6 +118,7 @@
       <script src="{{url_for('static', filename='js/table.js')}}"></script>
       <script src="{{url_for('static', filename='js/gallery.js')}}"></script>
       <script src="{{url_for('static', filename='js/repos.js')}}"></script>
+      <script src="{{url_for('static', filename='js/dropdown.js')}}"></script>
 
       <script>
          dropdown.initializeRepo();

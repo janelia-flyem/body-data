@@ -1,0 +1,20 @@
+// copy this file to a new file called repos.js and fill in the information
+var repos = {
+    "repos": [
+        {
+            "name": "<Name of first dataset>",
+            "server": "<server name>",
+            "port": <port>,
+            "UUID": "<UUID>",
+            "description": "<a description of the dataset>"
+            },
+        {
+            "name": "<Name of second dataset>",
+            "server": "<server name>",
+            "port": <port>,
+            "UUID": "<UUID>",
+            "description": "<a description of the dataset>"
+            },
+        <...>
+        ]
+};

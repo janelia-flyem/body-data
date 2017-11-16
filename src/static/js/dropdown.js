@@ -18,6 +18,7 @@ dropdown.hideLevel = function(id){
 
 dropdown.repos = null;
 
+// aggregate json information / put informaition about same servers into second level object
 dropdown.initializeRepo = function(){
    var result = {}
    repos.repos.forEach(function(elem){
@@ -34,6 +35,7 @@ dropdown.initializeRepo = function(){
    dropdown.repos = result;
 };
 
+// initialize first dropdown with servers available from repos.js
 dropdown.initializeSelect = function() {
    var doc = window.document;
    var select1 = $('#select-level1');
@@ -53,7 +55,7 @@ dropdown.initializeSelect = function() {
    })
 };
 
-
+// fill the ports available for the selected server into 2. dropdown
 dropdown.fillSecondLevel = function(value){
    var doc = window.document;
    var select2 = $('#select-level2');
@@ -69,6 +71,7 @@ dropdown.fillSecondLevel = function(value){
    })
 };
 
+// display information about environment (name and UUID)
 dropdown.fillThirdLevel = function(port){
    var server = $('#select-level1')[0].value;
    var div3 = $('#level3');
@@ -77,10 +80,12 @@ dropdown.fillThirdLevel = function(port){
    var content1 = document.createTextNode(name);
    var content2 = document.createTextNode(uuid);
    var d = $('#level3');
-   d.html(content1);
-   d.html(content2);
-   select2.append(d);
+   d.append(content1);
+   d.append('<br/>');
+   d.append(content2);
+   div3.append(d);
 };
+
 
 dropdown.getJSON = function(value){
   console.log(value);
@@ -95,8 +100,6 @@ dropdown.getJSON = function(value){
   mydiv3.empty();
 
   // Rearrange JSON
-
-
   var keys = Object.keys(result);
   keys.forEach(function(server){
     // Build second level
