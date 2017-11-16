@@ -57,6 +57,7 @@ dropdown.initializeSelect = function() {
       select1.append(d);
     })
     this.fillSecondLevel(first, true);
+    this.fillThirdLevel();
    }
 };
 
@@ -79,18 +80,18 @@ dropdown.fillSecondLevel = function(value, initial) {
 };
 
 // display information about environment (name and UUID)
-dropdown.fillThirdLevel = function(port) {
+dropdown.fillThirdLevel = function() {
    var server = $('#select-level1')[0].value;
+   var port = $('#select-level2')[0].value;
    var div3 = $('#level3');
+   div3.empty();
    var env = dropdown.repos[server][port];
-   var content1 = document.createTextNode(env.name);
-   var content2 = document.createTextNode(env.uuid);
-   var content3 = document.createTextNode(env.description);
+   var content1 = '<h5>UUID: ' + env.UUID + '</h5>';
+   var content2 = '<p>' + env.name + '</p>';
+   var content3 = '<p>' + env.description + '</p>';
    var d = $('#level3');
    d.append(content1);
-   d.append('<br/>');
    d.append(content2);
-   d.append('<br/>');
    d.append(content3);
    div3.append(d);
 };
