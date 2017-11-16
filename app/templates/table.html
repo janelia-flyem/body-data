@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <!-- contrib stylesheets -->
+      <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='components/datatables.net-bs/css/dataTables.bootstrap.css') }}">
+      <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='components/bootstrap/dist/css/bootstrap.min.css') }}">
+
+      <!-- custom stylesheet -->
+      <link rel="shortcut icon" href="{{ url_for('static', filename='files/favicon.ico') }}">
+      <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/overrides.css') }}">
+   </head>
+   <body>
+      <!-- shark container -->
+      <div class="row">
+         <div class="col-sm-12 col-md-12 col-lg-12 data-table-column">
+            <div class="shark-window">
+               <div id="shark-error" ></div>
+               <div id="shark-container-bbox">
+                  <div id="shark-close" class="glyphicon glyphicon-remove"  onclick="n_table.hide_shark()"></div>
+                  <div id="shark-container"></div>
+                  <div id="shark-coords"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- heading -->
+      <div class="row">
+         <div class="col-sm-12 col-md-12 col-lg-12 data-table-column">
+            <h3>Body Data</h3>
+         </div>
+      </div>
+      <!-- dataset information and options -->
+      <div class="row">
+         <!-- dataset information -->
+         <div class="col-sm-6 col-md-6 col-lg-8" id="table-metadata">
+            <div id='level3'>
+            </div>
+         </div>
+         <!-- options -->
+         <div class="col-sm-3 col-md-3 col-lg-4" id="gallery-actions">
+            <div class="row">
+               <div class="col-sm-6 col-md-6 col-lg-3" id="gallery-actions">
+                  <label>Server</label>
+                  <select class='form-control dropdown input-sm' id="select-level1" value="emdata1" onchange="dropdown.fillSecondLevel(this.value, false)"></select>
+               </div>
+               <div class="col-sm-6 col-md-6 col-lg-3" id="gallery-actions">
+                  <label>Port</label>
+                  <select class='form-control dropdown input-sm' id="select-level2" value="8700"></select>
+               </div>
+               <div class="col-sm-6 col-md-6 col-lg-3 border-right" >
+                  <button type="button" class="load-data btn btn-default btn-lg" onclick="dropdown.fillThirdLevel()">Load Data</button>
+               </div>
+               <div class="col-sm-6 col-md-6 col-lg-3" >
+                  <div id="gallery-actions">
+                     <div class="gallery-options">
+                        <input class="btn btn-default gallery-button btn-lg" type="button" onclick="bodyExplorer.openGallery()" value="Open Gallery"/>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- <div class="gallery-options" style="display: none"> -->
+         </div>
+      </div>
+      <!-- table data -->
+      <div class="row">
+         <div class="col-sm-12 col-md-12 col-lg-12 data-table-column">
+            <table class="table table-striped table-hover" id="data-table">
+               <tfoot>
+               <tr>
+                  <th class="default" name="0"></th> {# Body ID #}
+                  <th class="default" name="1"></th> {# Name #}
+                  <th class="default" name="2"></th>
+                  <th class="number" name="3"> {# PreSyn #}
+                  </th>
+                  <th class="number" name="4"> {# PostSyn #}
+                  </th> {# PostSyn #}
+                  <th class="default" name="5"></th> {# Assigned #}
+                  <th class="default" name="6"></th> {# User #}
+                  <th class="number" name="7"></th>
+                  <th class="default" name="8"></th> {# Commment #}
+                  <th class="reset">
+                     <input id="reset-filters" style="display: none" class="btn btn-default reset-button btn-sm" type="button" title="Empty all search fields and reset table" onclick="n_table.resetFilter()" value="Reset Filters"/>
+                  </th>
+               </tr>
+               </tfoot>
+            </table>
+         </div>
+      </div>
+
+      <!-- scripts -->
+      <script src="{{url_for('static', filename='js/bodyExplorer.js')}}"></script>
+      <script>
+         {%  if mytable %}
+            var table_data = {{ mytable|safe }};
+            {% else %}
+            var table_data = null;
+         {% endif %}
+         // table_data.data = table_data.data.slice(0,5); // DEV config sub array
+      </script>
+      <script>
+         bodyExplorer.uuid = {{ uuid }};
+         bodyExplorer.staticUrl = "{{ url_for('static', filename='') }}";
+         bodyExplorer.sharklogo = "{{ url_for('static', filename='files/shark.png') }}";
+
+         bodyExplorer.customCSS = "{{ url_for('static', filename='css/overrides.css') }}";
+         bodyExplorer.bootstrapCSS = "{{ url_for('static', filename='components/bootstrap/dist/css/bootstrap.min.css')}}";
+         bodyExplorer.datatableCSS = "{{ url_for('static', filename='components/datatables.net-bs/css/dataTables.bootstrap.css')}}";
+
+         // env variables
+         bodyExplorer.sharkUrl = "{{ shark_url }}";
+         bodyExplorer.galleryUrlBase = "{{ gallery_urlbase }}";
+      </script>
+
+      <!-- contrib dependencies -->
+      <script src="{{url_for('static', filename='components/jquery/dist/jquery.min.js')}}"></script>
+      <script src="{{url_for('static', filename='components/datatables.net/js/jquery.dataTables.js')}}"></script>
+      <script src="{{url_for('static', filename='components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+      <script src="{{url_for('static', filename='components/zip-js/WebContent/zip.js')}}"></script>
+      <script src="{{url_for('static', filename='components/pako/dist/pako.js')}}"></script>
+
+      <!-- custom dependencies -->
+      <script src="{{url_for('static', filename='js/table.js')}}"></script>
+      <script src="{{url_for('static', filename='js/gallery.js')}}"></script>
+      <script src="{{url_for('static', filename='js/repos.js')}}"></script>
+      <script src="{{url_for('static', filename='js/dropdown.js')}}"></script>
+
+      <script>
+         dropdown.initializeRepo();
+         dropdown.initializeSelect();
+      </script>
+
+      <!-- dependencies used by Sharkviewer -->
+      <script src="{{url_for('static', filename='lib/SharkViewer/js/threejs/three.js')}}"></script>
+      <script src="{{url_for('static', filename='lib/SharkViewer/js/threejs/TrackballControls.js')}}"></script>
+      <script src="{{url_for('static', filename='lib/SharkViewer/js/shark_viewer.js')}}"></script>
+   </body>
+</html>
