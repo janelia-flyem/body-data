@@ -40,16 +40,21 @@
          <!-- options -->
          <div class="col-sm-3 col-md-3 col-lg-4" id="gallery-actions">
             <div class="row">
-               <div class="col-sm-6 col-md-6 col-lg-4" id="gallery-actions">
-                  <select class='form-control dropdown input-sm' id="select-level1" onchange="dropdown.fillSecondLevel(this.value)"></select>
+               <div class="col-sm-6 col-md-6 col-lg-3" id="gallery-actions">
+                  <label>Server</label>
+                  <select class='form-control dropdown input-sm' id="select-level1" value="emdata1" onchange="dropdown.fillSecondLevel(this.value, false)"></select>
                </div>
-               <div class="col-sm-6 col-md-6 col-lg-4" id="gallery-actions">
-                  <select class='form-control dropdown input-sm' id="select-level2" onchange="dropdown.fillThirdLevel(this.value)"></select>
+               <div class="col-sm-6 col-md-6 col-lg-3" id="gallery-actions">
+                  <label>Port</label>
+                  <select class='form-control dropdown input-sm' id="select-level2" value="8700"></select>
                </div>
-               <div class="col-sm-6 col-md-6 col-lg-4" id="gallery-actions">
+               <div class="col-sm-6 col-md-6 col-lg-3 border-right" >
+                  <button type="button" class="load-data btn btn-default btn-lg" onclick="dropdown.fillThirdLevel()">Load Data</button>
+               </div>
+               <div class="col-sm-6 col-md-6 col-lg-3" >
                   <div id="gallery-actions">
                      <div class="gallery-options">
-                        <input class="btn btn-default gallery-button btn-sm" type="button" onclick="bodyExplorer.openGallery()" value="Gallery"/>
+                        <input class="btn btn-default gallery-button btn-lg" type="button" onclick="bodyExplorer.openGallery()" value="Open Gallery"/>
                      </div>
                   </div>
                </div>
