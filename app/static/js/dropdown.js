@@ -57,7 +57,7 @@ dropdown.initializeSelect = function() {
       select1.append(d);
     })
     this.fillSecondLevel(first, true);
-    this.fillThirdLevel();
+    // this.fillThirdLevel();
    }
 };
 
@@ -94,6 +94,10 @@ dropdown.fillThirdLevel = function() {
    d.append(content2);
    d.append(content3);
    div3.append(d);
+   var new_location = '/server/' + server + '/port/' + port + '/uuid/' + env.UUID;
+   if (window.location.pathname !== new_location) {
+      window.location.pathname = new_location;
+   }
 };
 
 

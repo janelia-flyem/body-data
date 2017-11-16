@@ -64,7 +64,6 @@ def get_full_data(server, port, uuid):
       url = url.replace('[id]', uuid)
       response = requests.get(url)
       data = zlib.decompress(response.content, zlib.MAX_WBITS|32)
-      print(data)
       json_str = data.decode('utf-8')
       sortparams = { 'sortby': 'body ID', 'sortdir': 'asc' }
       return render_template('table.html',
