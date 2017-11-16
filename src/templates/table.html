@@ -52,6 +52,13 @@
             </div>
          </div>
          <!-- gallery -->
+         <div class="dropdown">
+            <select id="select-level1" onchange="dropdown.fillSecondLevel(this.value)"></select>
+            <select id="select-level2" onchange="dropdown.fillThirdLevel(this.value)"></select>
+            <div id="level3">
+
+            </div>
+         </div>
          <div class="col-sm-3 col-md-3 col-lg-1" id="gallery-actions">
             <div class="gallery-options">
                <input class="btn btn-default gallery-button btn-sm" type="button" onclick="bodyExplorer.openGallery()" value="Gallery"/>
@@ -87,7 +94,11 @@
       <!-- scripts -->
       <script src="{{url_for('static', filename='js/bodyExplorer.js')}}"></script>
       <script>
-         var table_data = {{ mytable|safe }};
+         {%  if mytable %}
+            var table_data = {{ mytable|safe }};
+            {% else %}
+            var table_data = null;
+         {% endif %}
          // table_data.data = table_data.data.slice(0,5); // DEV config sub array
       </script>
       <script>
@@ -114,6 +125,12 @@
       <!-- custom dependencies -->
       <script src="{{url_for('static', filename='js/table.js')}}"></script>
       <script src="{{url_for('static', filename='js/gallery.js')}}"></script>
+      <script src="{{url_for('static', filename='js/repos.js')}}"></script>
+
+      <script>
+         dropdown.initializeRepo();
+         dropdown.initializeSelect();
+      </script>
 
       <!-- dependencies used by Sharkviewer -->
       <script src="{{url_for('static', filename='lib/SharkViewer/js/threejs/three.js')}}"></script>
