@@ -84,7 +84,31 @@ dropdown.fillPort = function(value, initial) {
 };
 
 dropdown.fillName = function (port) {
+  var doc = window.document;
+  var server = $('#select-level1')[0].value
+  if (dropdown.repos[server][port] && dropdown.repos[server][port].length > 0) {
+    var selectName = $('#select-name');
+    selectName.empty();
+    var selectUUID = $('#select-uuid');
+    selectUUID.empty();
 
+    var realRepos = dropdown.repos[server][port]
+    for (var j = 0; j < realRepos.length; j++) {
+      var uuid = realRepos[j].UUID;
+      // populate dropdown to choose an UUID
+      var name = realRepos[j].name;
+      // populate dropdown to choose a name
+      var oName = doc.createElement('option');
+      var content = document.createTextNode(name);
+      oName.appendChild(content);
+      selectName.append(oName);
+
+      var oUUID = doc.createElement('option');
+      var content = document.createTextNode(uuid);
+      oUUID.appendChild(content);
+      selectUUID.append(oUUID);
+    }
+  }
 }
 
 // display information about environment (name and UUID)
