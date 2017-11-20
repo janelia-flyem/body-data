@@ -15,6 +15,13 @@ var repos = {
             "description": "Proofread segmentation for alpha lobes in mushroom body 8x8x8nm"
             },
         {
+            "name": "name of emdata1 8500 abcde dataset",
+            "server": "emdata1",
+            "port": 8500,
+            "UUID": "abcde",
+            "description": "description of emdata1 8500 abcde dataset"
+            },
+        {
             "name": "Fly optic lobe (FIB19)",
             "server": "emdata2",
             "port": 7000,
