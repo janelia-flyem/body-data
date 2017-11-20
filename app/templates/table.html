@@ -31,28 +31,23 @@
       </div>
       <!-- dataset information and options -->
       <div class="row">
-         <!-- dataset information -->
-         <div class="col-sm-4 col-md-6 col-lg-4" id="table-metadata">
-            <div id='level3'>
-            </div>
-         </div>
          <!-- options -->
-         <div class="col-sm-8 col-md-6 col-lg-8">
+         <div class="col-sm-10 col-md-10 col-lg-10">
             <div class="row">
                <div class="col-sm-3 col-md-3 col-lg-2">
-                  <label class="body-label">Server</label>
+                  <label class="body-label">Server</label><br/>
                   <select class='selectpicker server' id="select-server" value="emdata1" onchange="dropdown.fillPort(this.value, false)" data-live-search="true" title="Choose one of the following..."></select>
                </div>
                <div class="col-sm-3 col-md-3 col-lg-2">
-                  <label class="body-label">Port</label>
+                  <label class="body-label">Port</label><br/>
                   <select class='selectpicker port' id="select-port" value="" onchange="dropdown.fillName(this.value)" data-live-search="true" title="Choose one of the following..."></select>
                </div>
                <div class="col-sm-3 col-md-3 col-lg-2">
-                  <label class="body-label">Name</label>
+                  <label class="body-label">Name</label><br/>
                   <select class='selectpicker name' id="select-name" value="" onchange="dropdown.updateUUID(this.value)" data-live-search="true" title="Choose one of the following..."></select>
                </div>
                <div class="col-sm-3 col-md-3 col-lg-2">
-                  <label class="body-label">UUID</label>
+                  <label class="body-label">UUID</label><br/>
                   <select class='selectpicker uuid' id="select-uuid" value="" data-live-search="true" onchange="dropdown.updateName(this.value)"></select>
                </div>
                <div class="col-sm-3 col-md-3 col-lg-2 border-right" >
@@ -134,7 +129,9 @@
          dropdown.initializeRepo();
          dropdown.initializeSelect();
          $(function() {
-            $('.selectpicker').selectpicker();
+         $('.selectpicker').selectpicker({
+           size: 4
+         });
          });
       </script>
 
