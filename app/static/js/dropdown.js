@@ -18,6 +18,13 @@ dropdown.hideLevel = function(id) {
 
 dropdown.repos = null;
 
+dropdown.init = {
+  server : 'emdata1',
+  port : '8700',
+  UUID : '18979',
+  name : 'pb26-27-2-trm-eroded32_ffn-20170216-2_celis_cx2-2048_r10_0_seeded_64blksz'
+};
+
 // aggregate json information / put informaition about same servers into second level object
 dropdown.initializeRepo = function() {
    var result = {}
@@ -46,6 +53,7 @@ dropdown.initializeSelect = function() {
    var select1 = $('#select-server');
    select1.empty();
    var keys = Object.keys(dropdown.repos);
+   // fill in the values for the select dropdown
    if (keys.length > 0) {
     keys.forEach(function(server){
       // Build second level
@@ -55,8 +63,8 @@ dropdown.initializeSelect = function() {
       d.appendChild(content);
       select1.append(d);
     });
-    this.fillPort(keys[0], true);
-    // this.fillThirdLevel();
+    this.fillPort(dropdown.init.server, true); // add the ports for init server
+    select1[0].value = dropdown.init.server;
    }
 };
 
@@ -68,23 +76,27 @@ dropdown.fillPort = function(server, initial) {
    var subObj = dropdown.repos[server];
    var ports = Object.keys(subObj);
    if (ports.length > 0) {
-      this.fillName(ports[0]);
       ports.forEach(function(port) {
         var d = doc.createElement('option');
         var content = document.createTextNode(port);
         d.appendChild(content);
         select2.append(d);
       });
+      if (initial) {
+        select2[0].value = dropdown.init.port; 
+        this.fillName(dropdown.init.port, initial);
+      }
+      else {
+        this.fillName(ports[0], initial);  
+      }
    }
-   if (initial) {
-      select2[0].value = "8700"; 
-   }
+   
    // dropdown.fillName(select2[0].value);
    $('#select-server').selectpicker('refresh');
    $('#select-port').selectpicker('refresh');
 };
 
-dropdown.fillName = function (port) {
+dropdown.fillName = function (port, initial) {
   var doc = window.document;
   var server = $('#select-server')[0].value;
   if (dropdown.repos[server][port] && dropdown.repos[server][port].length > 0) {
@@ -110,8 +122,12 @@ dropdown.fillName = function (port) {
       oUUID.appendChild(content);
       selectUUID.append(oUUID);
     }
-   $('#select-name').selectpicker('refresh');
-   $('#select-uuid').selectpicker('refresh');
+    if (initial) { //set intial value for the name field
+
+      $('#select-name')[0] = dropdown.init.name;
+    }
+    $('#select-name').selectpicker('refresh');
+    $('#select-uuid').selectpicker('refresh');
   }
 };
 

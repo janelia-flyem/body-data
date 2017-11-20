@@ -1,6 +1,13 @@
 var repos = {
     "repos": [
         {
+            "name": "pb26-27-2-trm-eroded32_ffn-20170216-2_celis_cx2-2048_r10_0_seeded_64blksz",
+            "server": "emdata1",
+            "port": 8700,
+            "UUID": "18979",
+            "description": "bookmarks"
+            },
+        {
             "name": "emdata1 4000 18979 name",
             "server": "emdata1",
             "port": 4000,
