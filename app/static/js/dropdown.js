@@ -47,52 +47,49 @@ dropdown.initializeSelect = function() {
    select1.empty();
    var keys = Object.keys(dropdown.repos);
    if (keys.length > 0) {
-    var first = Object.keys(dropdown.repos)[0]
     keys.forEach(function(server){
       // Build second level
       var d = doc.createElement('option');
       var content = document.createTextNode(server);
       d.classList.add('dropdown-item');
-      d.onclick = function() {
-         // show third level
-         select1.css('display','block');
-      };
       d.appendChild(content);
       select1.append(d);
-    })
-    this.fillPort(first, true);
+    });
+    this.fillPort(keys[0], true);
     // this.fillThirdLevel();
    }
 };
 
 // fill the ports available for the selected server into 2. dropdown
-dropdown.fillPort = function(value, initial) {
+dropdown.fillPort = function(server, initial) {
    var doc = window.document;
    var select2 = $('#select-level2');
    select2.empty();
-   var subObj = dropdown.repos[value];
+   var subObj = dropdown.repos[server];
    var ports = Object.keys(subObj);
    ports.forEach(function(port) {
       var d = doc.createElement('option');
       var content = document.createTextNode(port);
       d.appendChild(content);
       select2.append(d);
-   })
+   });
+
    if (initial) {
       select2[0].value = "8700"; 
    }
+   dropdown.fillName(select2[0].value);
 };
 
 dropdown.fillName = function (port) {
   var doc = window.document;
-  var server = $('#select-level1')[0].value
+  var server = $('#select-level1')[0].value;
   if (dropdown.repos[server][port] && dropdown.repos[server][port].length > 0) {
     var selectName = $('#select-name');
     selectName.empty();
     var selectUUID = $('#select-uuid');
     selectUUID.empty();
 
-    var realRepos = dropdown.repos[server][port]
+    var realRepos = dropdown.repos[server][port];
     for (var j = 0; j < realRepos.length; j++) {
       var uuid = realRepos[j].UUID;
       // populate dropdown to choose an UUID
@@ -108,8 +105,23 @@ dropdown.fillName = function (port) {
       oUUID.appendChild(content);
       selectUUID.append(oUUID);
     }
+    selectName.onchange = function(){
+       console.log(this.value);
+    };
+    
+    selectUUID.onchange = function(){
+       console.log(this.value);
+    }
   }
-}
+};
+
+dropdown.updateName = function () {
+
+};
+
+dropdown.updateUUID = function () {
+
+};
 
 // display information about environment (name and UUID)
 dropdown.fillThirdLevel = function() {
