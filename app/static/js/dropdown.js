@@ -62,22 +62,26 @@ dropdown.initializeSelect = function() {
 
 // fill the ports available for the selected server into 2. dropdown
 dropdown.fillPort = function(server, initial) {
-   var doc = window.document;
    var select2 = $('#select-port');
+   var doc = window.document;
    select2.empty();
    var subObj = dropdown.repos[server];
    var ports = Object.keys(subObj);
-   ports.forEach(function(port) {
-      var d = doc.createElement('option');
-      var content = document.createTextNode(port);
-      d.appendChild(content);
-      select2.append(d);
-   });
-
+   if (ports.length > 0) {
+      this.fillName(ports[0]);
+      ports.forEach(function(port) {
+        var d = doc.createElement('option');
+        var content = document.createTextNode(port);
+        d.appendChild(content);
+        select2.append(d);
+      });
+   }
    if (initial) {
       select2[0].value = "8700"; 
    }
-   dropdown.fillName(select2[0].value);
+   // dropdown.fillName(select2[0].value);
+   $('#select-server').selectpicker('refresh');
+   $('#select-port').selectpicker('refresh');
 };
 
 dropdown.fillName = function (port) {
@@ -96,6 +100,7 @@ dropdown.fillName = function (port) {
       var name = realRepos[j].name;
       // populate dropdown to choose a name
       var oName = doc.createElement('option');
+      oName.title = realRepos[j].description;
       var content = document.createTextNode(name);
       oName.appendChild(content);
       selectName.append(oName);
@@ -105,6 +110,8 @@ dropdown.fillName = function (port) {
       oUUID.appendChild(content);
       selectUUID.append(oUUID);
     }
+   $('#select-name').selectpicker('refresh');
+   $('#select-uuid').selectpicker('refresh');
   }
 };
 
@@ -120,6 +127,8 @@ dropdown.updateName = function (uuid) {
           name.value = envs[i].name;
         }
      }
+    $('#select-name').selectpicker('refresh');
+    $('#select-uuid').selectpicker('refresh');
    }
 };
 
@@ -135,6 +144,8 @@ dropdown.updateUUID = function (name) {
           uuid.value = envs[i].UUID;
         }
      }
+     $('#select-name').selectpicker('refresh');
+     $('#select-uuid').selectpicker('refresh');
    }
 };
 

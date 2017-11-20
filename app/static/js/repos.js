@@ -1,46 +1,46 @@
 var repos = {
     "repos": [
         {
-            "name": "pb26-27-2-trm-eroded32_ffn-20170216-2_celis_cx2-2048_r10_0_seeded_64blksz",
+            "name": "emdata1 4000 18979 name",
             "server": "emdata1",
-            "port": 8700,
+            "port": 4000,
             "UUID": "18979",
-            "description": "bookmarks"
+            "description": "emdata1 4000 18979 desc"
             },
         {
-            "name": "Another cocool name",
+            "name": "emdata1 5000 12345 name",
             "server": "emdata1",
-            "port": 8700,
+            "port": 5000,
             "UUID": "12345",
-            "description": "bookmarks"
+            "description": "emdata1 5000 12345 desc"
             },
         {
-            "name": "Mushroom body (MB6)",
+            "name": "emdata1 6000 7abee name",
             "server": "emdata1",
-            "port": 8500,
+            "port": 6000,
             "UUID": "7abee",
-            "description": "Proofread segmentation for alpha lobes in mushroom body 8x8x8nm"
+            "description": "emdata1 6000 7abee desc"
             },
         {
-            "name": "name of emdata1 8500 abcde dataset",
+            "name": "emdata1 4000 abcde name",
             "server": "emdata1",
-            "port": 8500,
+            "port": 4000,
             "UUID": "abcde",
-            "description": "description of emdata1 8500 abcde dataset"
+            "description": "emdata1 4000 abcde desc"
             },
         {
-            "name": "Fly optic lobe (FIB19)",
+            "name": "emdata2 8000 e2f02 name",
             "server": "emdata2",
-            "port": 7000,
+            "port": 8000,
             "UUID": "e2f02",
-            "description": "Lobula, medulla, lobula plate 8x8x8nm resolution"
+            "description": "emdata2 8000 e2f02 desc"
             },
         {
-            "name": "More things",
+            "name": "emdata2 8000 zzzzz name",
             "server": "emdata2",
-            "port": 9000,
-            "UUID": "e2f02",
-            "description": "Globe and stuff"
+            "port": 8000,
+            "UUID": "zzzzz",
+            "description": "emdata2 8000 zzzzz desc"
             },
         ]
 };

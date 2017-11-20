@@ -211,5 +211,26 @@ label input[type=checkbox]{
 }
 
 .load-data {
-  margin-top: 24px;
+  margin-left: 27px;
+  margin-top: 21px;
+}
+
+.gallery-button {
+  margin-top: 21px;
+}
+
+.body-label {
+  margin-bottom: 1px;
+}
+
+.bootstrap-select > .button {
+  width: 80% !important;
+}
+
+.selectpicker .bootstrap-select .dropdown-toggle span{
+  background-color: 30px;
+}
+
+select.selectpicker {
+  display: none;
 }
