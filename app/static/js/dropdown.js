@@ -43,7 +43,7 @@ dropdown.initializeRepo = function() {
 dropdown.initializeSelect = function() {
    // initialize first dropdown
    var doc = window.document;
-   var select1 = $('#select-level1');
+   var select1 = $('#select-server');
    select1.empty();
    var keys = Object.keys(dropdown.repos);
    if (keys.length > 0) {
@@ -63,7 +63,7 @@ dropdown.initializeSelect = function() {
 // fill the ports available for the selected server into 2. dropdown
 dropdown.fillPort = function(server, initial) {
    var doc = window.document;
-   var select2 = $('#select-level2');
+   var select2 = $('#select-port');
    select2.empty();
    var subObj = dropdown.repos[server];
    var ports = Object.keys(subObj);
@@ -82,7 +82,7 @@ dropdown.fillPort = function(server, initial) {
 
 dropdown.fillName = function (port) {
   var doc = window.document;
-  var server = $('#select-level1')[0].value;
+  var server = $('#select-server')[0].value;
   if (dropdown.repos[server][port] && dropdown.repos[server][port].length > 0) {
     var selectName = $('#select-name');
     selectName.empty();
@@ -105,28 +105,43 @@ dropdown.fillName = function (port) {
       oUUID.appendChild(content);
       selectUUID.append(oUUID);
     }
-    selectName.onchange = function(){
-       console.log(this.value);
-    };
-    
-    selectUUID.onchange = function(){
-       console.log(this.value);
-    }
   }
 };
 
-dropdown.updateName = function () {
+dropdown.updateName = function (uuid) {
+   var server = $('#select-server')[0].value;
+   var port = $('#select-port')[0].value;
+   var name = $('#select-name')[0];
 
+   if (server && port) {
+     var envs = dropdown.repos[server][port];
+     for (var i = 0; i < envs.length; i++) {
+        if (envs[i].UUID === uuid) {
+          name.value = envs[i].name;
+        }
+     }
+   }
 };
 
-dropdown.updateUUID = function () {
+dropdown.updateUUID = function (name) {
+   var server = $('#select-server')[0].value;
+   var port = $('#select-port')[0].value;
+   var uuid = $('#select-uuid')[0];
 
+   if (server && port) {
+     var envs = dropdown.repos[server][port];
+     for (var i = 0; i < envs.length; i++) {
+        if (envs[i].name === name) {
+          uuid.value = envs[i].UUID;
+        }
+     }
+   }
 };
 
 // display information about environment (name and UUID)
 dropdown.fillThirdLevel = function() {
-   var server = $('#select-level1')[0].value;
-   var port = $('#select-level2')[0].value;
+   var server = $('#select-server')[0].value;
+   var port = $('#select-port')[0].value;
    var div3 = $('#level3');
    div3.empty();
    var env = dropdown.repos[server][port];

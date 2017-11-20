@@ -41,15 +41,15 @@
             <div class="row">
                <div class="col-sm-3 col-md-3 col-lg-3">
                   <label>Server</label>
-                  <select class='form-control dropdown input-sm' id="select-level1" value="emdata1" onchange="dropdown.fillPort(this.value, false)"></select>
+                  <select class='form-control dropdown input-sm' id="select-server" value="emdata1" onchange="dropdown.fillPort(this.value, false)"></select>
                   <label>Port</label>
-                  <select class='form-control dropdown input-sm' id="select-level2" value="8700" onchange="dropdown.fillName(this.value)"></select>
+                  <select class='form-control dropdown input-sm' id="select-port" value="8700" onchange="dropdown.fillName(this.value)"></select>
                </div>
                <div class="col-sm-3 col-md-3 col-lg-3">
                   <label>Name</label>
-                  <select class='form-control dropdown input-sm' id="select-name" value=""></select>
+                  <select class='form-control dropdown input-sm' id="select-name" value="" onchange="dropdown.updateUUID(this.value)"></select>
                   <label>UUID</label>
-                  <select class='form-control dropdown input-sm' id="select-uuid" value=""></select>
+                  <select class='form-control dropdown input-sm' id="select-uuid" value="" onchange="dropdown.updateName(this.value)"></select>
                </div>
                <div class="col-sm-3 col-md-3 col-lg-3 border-right" >
                   <button type="button" class="load-data btn btn-default btn-lg btn-info" onclick="dropdown.fillThirdLevel()">Load Data</button>
