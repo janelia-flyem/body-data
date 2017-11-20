@@ -166,21 +166,11 @@ dropdown.updateUUID = function (name) {
 };
 
 // display information about environment (name and UUID)
-dropdown.fillThirdLevel = function() {
+dropdown.loadData = function() {
    var server = $('#select-server')[0].value;
    var port = $('#select-port')[0].value;
-   var div3 = $('#level3');
-   div3.empty();
-   var env = dropdown.repos[server][port];
-   var content1 = '<h5>UUID: ' + env.UUID + '</h5>';
-   var content2 = '<p>' + env.name + '</p>';
-   var content3 = '<p>' + env.description + '</p>';
-   var d = $('#level3');
-   d.append(content1);
-   d.append(content2);
-   d.append(content3);
-   div3.append(d);
-   var new_location = '/server/' + server + '/port/' + port + '/uuid/' + env.UUID;
+   var uuid = $('#select-uuid')[0].value;
+   var new_location = '/server/' + server + '/port/' + port + '/uuid/' + uuid;
    if (window.location.pathname !== new_location) {
       window.location.pathname = new_location;
    }
