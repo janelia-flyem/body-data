@@ -8,6 +8,13 @@ var repos = {
             "description": "bookmarks"
             },
         {
+            "name": "Another cocool name",
+            "server": "emdata1",
+            "port": 8700,
+            "UUID": "12345",
+            "description": "bookmarks"
+            },
+        {
             "name": "Mushroom body (MB6)",
             "server": "emdata1",
             "port": 8500,
