@@ -114,8 +114,9 @@ dropdown.initializeSelect = function() {
       d.appendChild(content);
       select1.append(d);
     });
-    this.fillPort(dropdown.init.server, true); // add the ports for init server
     select1[0].value = dropdown.init.server;
+    $('#select-server').selectpicker('refresh');
+    this.fillPort(dropdown.init.server, true); // add the ports for init server
    }
 };
 
@@ -141,9 +142,6 @@ dropdown.fillPort = function(server, initial) {
         this.fillName(ports[0], initial);  
       }
    }
-   
-   // dropdown.fillName(select2[0].value);
-   $('#select-server').selectpicker('refresh');
    $('#select-port').selectpicker('refresh');
 };
 
@@ -174,7 +172,6 @@ dropdown.fillName = function (port, initial) {
       selectUUID.append(oUUID);
     }
     if (initial) { //set intial value for the name field
-
       $('#select-name')[0] = dropdown.init.name;
     }
     $('#select-name').selectpicker('refresh');
@@ -216,10 +213,7 @@ dropdown.updateUUID = function (name) {
 
 dropdown.onChangeRootUUID = function(rootUUID) {
   this.updateName(rootUUID);
-  var server = $('#select-server')[0].value;
-  var port = $('#select-port')[0].value;
-  this.explore(server, port, rootUUID);
-
+  this.updateDataUUIDs(rootUUID);
   $('#select-name').selectpicker('refresh');
   $('#select-uuid').selectpicker('refresh');
 };
@@ -236,7 +230,6 @@ dropdown.onChangeRootName = function(rootName) {
 };
 
 dropdown.onChangeDataUUID = function(dataUUID) {
-
   // update branch
   var server = $('#select-server')[0].value;
   var port = $('#select-port')[0].value;
@@ -252,16 +245,22 @@ dropdown.onChangeDataUUID = function(dataUUID) {
   }
 };
 
+dropdown.updateDataUUIDs = function(rootUUID){
+  var server = $('#select-server')[0].value;
+  var port = $('#select-port')[0].value;
+  this.explore(server, port, rootUUID);
+};
+
 dropdown.addOption = function(docm, selectControl, value) {
   var o = docm.createElement('option');
   var content = docm.createTextNode(value);
   o.appendChild(content);
   selectControl.append(o);
-}
+};
 
 dropdown.onChangeBranch = function() {
   console.log('Branch chaanged');
-}
+};
 
 // display information about environment (name and UUID)
 dropdown.loadData = function() {
