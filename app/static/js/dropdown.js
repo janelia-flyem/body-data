@@ -1,5 +1,56 @@
 var dropdown = dropdown || {};
 
+dropdown.status = function(response) {
+  if (response.status >= 200 && response.status < 300) {
+    return Promise.resolve(response)
+  } else {
+    return Promise.reject(new Error(response.statusText))
+  }
+};
+
+dropdown.json = function(response) {
+  return response.json()
+};
+
+dropdown.env = null;
+
+dropdown.explore = function(server, port, rootUUID){
+    var infoURL = 'http://'
+         + server
+         + ':'
+         + port
+         + '/api/repo/'
+         + rootUUID
+         + '/info';
+
+    var infoRequest = new Request(infoURL, {
+       method: 'GET'
+    })
+
+    var cFetch = fetch(infoRequest).then(dropdown.status)
+            .then(dropdown.json)
+            .then(function(data) {
+                dropdown.env = data.DAG.Nodes;
+                var versions = Object.keys(dropdown.env);
+                return versions;
+            }).catch(function(error) {
+                console.log('Request failed', error);
+            }).then( function(result) {
+                if (result && Array.isArray(result) && result.length > 0) {
+                  var elem = $('#select-datauuid');
+                  elem.empty();
+                  var doc = window.document;
+                  for (var j = 0; j < result.length; j++) {
+                    var d = doc.createElement('option');
+                    var content = document.createTextNode(result[j]);
+                    d.appendChild(content);
+                    elem.append(d);
+                  }
+                  $('#select-datauuid').selectpicker('refresh');
+                }
+            });
+};
+
 dropdown.showLevel = function(id, level) {
   $('.dropdown-' + level).each(function(){
       $(this).css('display','none');
@@ -19,10 +70,10 @@ dropdown.hideLevel = function(id) {
 dropdown.repos = null;
 
 dropdown.init = {
-  server : 'emdata1',
-  port : '8700',
-  UUID : '18979',
-  name : 'pb26-27-2-trm-eroded32_ffn-20170216-2_celis_cx2-2048_r10_0_seeded_64blksz'
+  server: 'emdata1',
+  port: '8700',
+  UUID: '18979',
+  name: 'pb26-27-2-trm-eroded32_ffn-20170216-2_celis_cx2-2048_r10_0_seeded_64blksz'
 };
 
 // aggregate json information / put informaition about same servers into second level object
@@ -112,7 +163,7 @@ dropdown.fillName = function (port, initial) {
       var name = realRepos[j].name;
       // populate dropdown to choose a name
       var oName = doc.createElement('option');
-      oName.title = realRepos[j].description;
+      oName.title = realRepos[j].name;
       var content = document.createTextNode(name);
       oName.appendChild(content);
       selectName.append(oName);
@@ -143,8 +194,6 @@ dropdown.updateName = function (uuid) {
           name.value = envs[i].name;
         }
      }
-    $('#select-name').selectpicker('refresh');
-    $('#select-uuid').selectpicker('refresh');
    }
 };
 
@@ -165,11 +214,60 @@ dropdown.updateUUID = function (name) {
    }
 };
 
+dropdown.onChangeRootUUID = function(rootUUID) {
+  this.updateName(rootUUID);
+  var server = $('#select-server')[0].value;
+  var port = $('#select-port')[0].value;
+  this.explore(server, port, rootUUID);
+
+  $('#select-name').selectpicker('refresh');
+  $('#select-uuid').selectpicker('refresh');
+};
+
+dropdown.onChangeRootName = function(rootName) {
+  this.updateUUID(rootName);
+  var server = $('#select-server')[0].value;
+  var port = $('#select-port')[0].value;
+  var uuid = $('#select-uuid')[0].value
+  this.explore(server, port, uuid);
+
+  $('#select-name').selectpicker('refresh');
+  $('#select-uuid').selectpicker('refresh');
+};
+
+dropdown.onChangeDataUUID = function(dataUUID) {
+
+  // update branch
+  var server = $('#select-server')[0].value;
+  var port = $('#select-port')[0].value;
+  var rootUUID = $('#select-uuid')[0].value
+
+  if (dropdown.env) {
+    var branchControl = $('#select-branch');
+    branchControl.empty();
+    var branch = dropdown.env[dataUUID].Branch;
+    dropdown.addOption(window.document, branchControl, branch);
+    branchControl[0].value = branch;
+    branchControl.selectpicker('refresh');
+  }
+};
+
+dropdown.addOption = function(docm, selectControl, value) {
+  var o = docm.createElement('option');
+  var content = docm.createTextNode(value);
+  o.appendChild(content);
+  selectControl.append(o);
+}
+
+dropdown.onChangeBranch = function() {
+  console.log('Branch chaanged');
+}
+
 // display information about environment (name and UUID)
 dropdown.loadData = function() {
    var server = $('#select-server')[0].value;
    var port = $('#select-port')[0].value;
-   var uuid = $('#select-uuid')[0].value;
+   var uuid = $('#select-datauuid')[0].value;
    var new_location = '/server/' + server + '/port/' + port + '/uuid/' + uuid;
    if (window.location.pathname !== new_location) {
       window.location.pathname = new_location;

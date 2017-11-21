@@ -202,25 +202,24 @@ label input[type=checkbox]{
    color: #555;
 }
 
-.load-data {
-  margin-top: 27px;
-}
-
 .gallery-options {
   margin-top: 24px;
 }
 
-.load-data {
-  margin-left: 27px;
-  margin-top: 21px;
+#load-data {
+  margin-left: 1em;
+  margin-top: 3.9em;
 }
 
 .gallery-button {
-  margin-top: 21px;
+  margin-top: 3.9em;
+  float: right;
 }
 
 .body-label {
-  margin-bottom: 1px;
+  min-width: 5.2em;
+  text-align: right;
+  padding-right: 0.5em;
 }
 
 .bootstrap-select > .button {

@@ -31,33 +31,27 @@
       </div>
       <!-- dataset information and options -->
       <div class="row">
-         <!-- options -->
-         <div class="col-sm-10 col-md-10 col-lg-10">
-            <div class="row">
-               <div class="col-sm-3 col-md-3 col-lg-2">
-                  <label class="body-label">Server</label><br/>
-                  <select class='selectpicker server' id="select-server" value="emdata1" onchange="dropdown.fillPort(this.value, false)" data-live-search="true" title="Choose one of the following..."></select>
-               </div>
-               <div class="col-sm-3 col-md-3 col-lg-2">
-                  <label class="body-label">Port</label><br/>
-                  <select class='selectpicker port' id="select-port" value="" onchange="dropdown.fillName(this.value)" data-live-search="true" title="Choose one of the following..."></select>
-               </div>
-               <div class="col-sm-3 col-md-3 col-lg-2">
-                  <label class="body-label">Name</label><br/>
-                  <select class='selectpicker name' id="select-name" value="" onchange="dropdown.updateUUID(this.value)" data-live-search="true" title="Choose one of the following..."></select>
-               </div>
-               <div class="col-sm-3 col-md-3 col-lg-2">
-                  <label class="body-label">UUID</label><br/>
-                  <select class='selectpicker uuid' id="select-uuid" value="" data-live-search="true" onchange="dropdown.updateName(this.value)"></select>
-               </div>
-               <div class="col-sm-3 col-md-3 col-lg-2 border-right" >
-                  <button type="button" class="load-data btn btn-default btn-sm btn-info" onclick="dropdown.loadData()">Load Data</button>
-               </div>
-               <div class="col-sm-3 col-md-3 col-lg-2" >
-                  <input class="btn btn-default gallery-button btn-sm btn-info" type="button" onclick="bodyExplorer.openGallery()" value="Open Gallery"/>
-               </div>
-            </div>
-            <!-- <div class="gallery-options" style="display: none"> -->
+         <div class="col-sm-3 col-md-3 col-lg-2">
+            <label class="body-label">Server:</label>
+            <select class='selectpicker' id="select-server" value="emdata1" onchange="dropdown.fillPort(this.value, false) data-live-search="true" title="Choose one of the following..."></select><br/>
+            <label class="body-label">Port:</label>
+            <select class='selectpicker' id="select-port" value="" onchange="dropdown.fillName(this.value)" data-live-search="true" title="Choose one of the following..."></select>
+         </div>
+         <div class="col-sm-3 col-md-3 col-lg-2">
+            <label class="body-label">Name:</label>
+            <select class='selectpicker name' id="select-name" value="" onchange="dropdown.onChangeRootName(this.value)" data-live-search="true" title="Choose one of the following..."></select><br/>
+            <label class="body-label">Root:</label>
+            <select class='selectpicker' id="select-uuid" value="" data-live-search="true" onchange="dropdown.onChangeRootUUID(this.value)"></select>
+         </div>
+         <div class="col-sm-3 col-md-3 col-lg-2">
+            <label class="body-label">Branch:</label>
+            <select class='selectpicker' id="select-branch" value="" data-live-search="true" onchange="dropdown.onChangeBranch(this.value)"></select><br/>
+            <label class="body-label">UUID:</label>
+            <select class='selectpicker' id="select-datauuid" value="" data-live-search="true" onchange="dropdown.onChangeDataUUID(this.value)"></select>
+         </div>
+         <div class="col-sm-3 col-md-3 col-lg-6">
+            <button type="button" id="load-data" class="load-data btn btn-default btn-sm btn-info" onclick="dropdown.loadData()">Load Data</button>
+            <input id="gallery-button" class="btn btn-default gallery-button btn-sm btn-info" type="button" onclick="bodyExplorer.openGallery()" value="Open Gallery"/>
          </div>
       </div>
       <!-- table data -->
