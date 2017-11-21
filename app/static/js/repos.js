@@ -1,53 +1,19 @@
+// UUID refers to the RootUUID
 var repos = {
     "repos": [
         {
-            "name": "pb26-27-2-trm-eroded32_ffn-20170216-2_celis_cx2-2048_r10_0_seeded_64blksz",
+            "name": "cx-pb-sample2",
             "server": "emdata1",
             "port": 8700,
             "UUID": "18979",
-            "description": "bookmarks"
+            "description": "description cx-pb-sample2"
             },
         {
-            "name": "emdata1 4000 18979 name",
+            "name": "fb-highres",
             "server": "emdata1",
-            "port": 4000,
-            "UUID": "18979",
-            "description": "emdata1 4000 18979 desc"
-            },
-        {
-            "name": "emdata1 5000 12345 name",
-            "server": "emdata1",
-            "port": 5000,
-            "UUID": "12345",
-            "description": "emdata1 5000 12345 desc"
-            },
-        {
-            "name": "emdata1 6000 7abee name",
-            "server": "emdata1",
-            "port": 6000,
-            "UUID": "7abee",
-            "description": "emdata1 6000 7abee desc"
-            },
-        {
-            "name": "emdata1 4000 abcde name",
-            "server": "emdata1",
-            "port": 4000,
-            "UUID": "abcde",
-            "description": "emdata1 4000 abcde desc"
-            },
-        {
-            "name": "emdata2 8000 e2f02 name",
-            "server": "emdata2",
-            "port": 8000,
-            "UUID": "e2f02",
-            "description": "emdata2 8000 e2f02 desc"
-            },
-        {
-            "name": "emdata2 8000 zzzzz name",
-            "server": "emdata2",
-            "port": 8000,
-            "UUID": "zzzzz",
-            "description": "emdata2 8000 zzzzz desc"
-            },
+            "port": 8700,
+            "UUID": "9ab2e",
+            "description": "description fb-highres"
+            }
         ]
 };
