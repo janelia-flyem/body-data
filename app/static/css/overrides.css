@@ -206,14 +206,9 @@ label input[type=checkbox]{
   margin-top: 24px;
 }
 
-#load-data {
-  margin-left: 1em;
-  margin-top: 2.15em;
-}
 
 .gallery-button {
-  margin-top: 2.15em;
-  float: right;
+  margin-top: 1.15em;
 }
 
 .body-label {

@@ -14,7 +14,7 @@ dropdown.json = function(response) {
 
 dropdown.env = null;
 
-dropdown.explore = function(server, port, rootUUID){
+dropdown.explore = function(server, port, rootUUID, initial){
     var infoURL = 'http://'
          + server
          + ':'
@@ -22,10 +22,9 @@ dropdown.explore = function(server, port, rootUUID){
          + '/api/repo/'
          + rootUUID
          + '/info';
-
     var infoRequest = new Request(infoURL, {
        method: 'GET'
-    })
+    });
 
     var cFetch = fetch(infoRequest).then(dropdown.status)
             .then(dropdown.json)
@@ -37,16 +36,25 @@ dropdown.explore = function(server, port, rootUUID){
                 console.log('Request failed', error);
             }).then( function(result) {
                 if (result && Array.isArray(result) && result.length > 0) {
-                  var elem = $('#select-datauuid');
-                  elem.empty();
-                  var doc = window.document;
-                  for (var j = 0; j < result.length; j++) {
-                    var d = doc.createElement('option');
-                    var content = document.createTextNode(result[j]);
-                    d.appendChild(content);
-                    elem.append(d);
+                  var uuidElem = $('#select-datauuid');
+                  var branchElem = $('#select-branch');
+                  var branches = new Set();
+                  uuidElem.empty();
+                  branchElem.empty();
+                  for (var j = 0, len = result.length; j < len; j++) {
+                    dropdown.addOption(uuidElem, result[j]);
+                    branches.add(dropdown.env[result[j]].Branch)
+                  }
+                  var branchArray = Array.from(branches).sort();
+                  for (var i = 0, len = branchArray.length; i < len; i++) {
+                     dropdown.addOption(branchElem, branchArray[i]);
+                  }
+                  if (initial) {
+                     $('#select-datauuid')[0].value = dropdown.init.dataUUID;
+                     $('#select-branch')[0].value = dropdown.env[dropdown.init.dataUUID].Branch;
                   }
                   $('#select-datauuid').selectpicker('refresh');
+                  $('#select-branch').selectpicker('refresh');
                 }
             });
 };
@@ -73,12 +81,18 @@ dropdown.init = {
   server: 'emdata1',
   port: '8700',
   UUID: '18979',
+  dataUUID: '18979088f9d248d6ac428df4cea022fe',
   name: 'pb26-27-2-trm-eroded32_ffn-20170216-2_celis_cx2-2048_r10_0_seeded_64blksz'
+};
+
+dropdown.current = {
+   server: null,
+   port: null
 };
 
 // aggregate json information / put informaition about same servers into second level object
 dropdown.initializeRepo = function() {
-   var result = {}
+   var result = {};
    repos.repos.forEach(function(elem){
       // check if server has been added yet
       if (Object.keys(result).indexOf(elem.server) == -1) {
@@ -99,55 +113,48 @@ dropdown.initializeRepo = function() {
 
 // initialize dropdown with servers available from repos.js
 dropdown.initializeSelect = function() {
-   // initialize first dropdown
-   var doc = window.document;
-   var select1 = $('#select-server');
-   select1.empty();
+   var selectServer = $('#select-server');
+   selectServer.empty();
    var keys = Object.keys(dropdown.repos);
-   // fill in the values for the select dropdown
+   // fill in the values for the server dropdown
    if (keys.length > 0) {
     keys.forEach(function(server){
-      // Build second level
-      var d = doc.createElement('option');
-      var content = document.createTextNode(server);
-      d.classList.add('dropdown-item');
-      d.appendChild(content);
-      select1.append(d);
+      dropdown.addOption(selectServer, server);
     });
-    select1[0].value = dropdown.init.server;
+    var serv = dropdown.init.server;
+    dropdown.current.server = serv;
+    selectServer[0].value = serv;
     $('#select-server').selectpicker('refresh');
-    this.fillPort(dropdown.init.server, true); // add the ports for init server
+    this.fillPort(serv, true); // add the ports for init server
    }
 };
 
 // fill the ports available for the selected server into 2. dropdown
 dropdown.fillPort = function(server, initial) {
-   var select2 = $('#select-port');
-   var doc = window.document;
-   select2.empty();
+   var selectPort = $('#select-port');
+   selectPort.empty();
    var subObj = dropdown.repos[server];
    var ports = Object.keys(subObj);
    if (ports.length > 0) {
       ports.forEach(function(port) {
-        var d = doc.createElement('option');
-        var content = document.createTextNode(port);
-        d.appendChild(content);
-        select2.append(d);
+        dropdown.addOption(selectPort, port);
       });
       if (initial) {
-        select2[0].value = dropdown.init.port; 
-        this.fillName(dropdown.init.port, initial);
+        var port = dropdown.init.port;
+        dropdown.current.port = port;
+        selectPort[0].value = port;
+        this.fillName(port, initial);
+        this.updateDataUUIDs(dropdown.init.UUID, initial);
       }
       else {
-        this.fillName(ports[0], initial);  
+        this.fillName(ports[0], initial);
       }
    }
    $('#select-port').selectpicker('refresh');
 };
 
 dropdown.fillName = function (port, initial) {
-  var doc = window.document;
-  var server = $('#select-server')[0].value;
+  var server = dropdown.current.server;
   if (dropdown.repos[server][port] && dropdown.repos[server][port].length > 0) {
     var selectName = $('#select-name');
     selectName.empty();
@@ -156,20 +163,13 @@ dropdown.fillName = function (port, initial) {
 
     var realRepos = dropdown.repos[server][port];
     for (var j = 0; j < realRepos.length; j++) {
-      var uuid = realRepos[j].UUID;
       // populate dropdown to choose an UUID
-      var name = realRepos[j].name;
-      // populate dropdown to choose a name
-      var oName = doc.createElement('option');
-      oName.title = realRepos[j].name;
-      var content = document.createTextNode(name);
-      oName.appendChild(content);
-      selectName.append(oName);
+      var uuid = realRepos[j].UUID;
+      dropdown.addOption(selectUUID, uuid);
 
-      var oUUID = doc.createElement('option');
-      var content = document.createTextNode(uuid);
-      oUUID.appendChild(content);
-      selectUUID.append(oUUID);
+      // populate dropdown to choose a name
+      var name = realRepos[j].name;
+      dropdown.addOption(selectName, name);
     }
     if (initial) { //set intial value for the name field
       $('#select-name')[0] = dropdown.init.name;
@@ -180,8 +180,8 @@ dropdown.fillName = function (port, initial) {
 };
 
 dropdown.updateName = function (uuid) {
-   var server = $('#select-server')[0].value;
-   var port = $('#select-port')[0].value;
+   var server = dropdown.current.server;
+   var port = dropdown.current.port;
    var name = $('#select-name')[0];
 
    if (server && port) {
@@ -195,8 +195,8 @@ dropdown.updateName = function (uuid) {
 };
 
 dropdown.updateUUID = function (name) {
-   var server = $('#select-server')[0].value;
-   var port = $('#select-port')[0].value;
+   var server = dropdown.current.server;
+   var port = dropdown.current.port;
    var uuid = $('#select-uuid')[0];
 
    if (server && port) {
@@ -211,18 +211,31 @@ dropdown.updateUUID = function (name) {
    }
 };
 
+dropdown.updateDataUUIDs = function(rootUUID, initial){
+   var server = dropdown.current.server;
+   var port = dropdown.current.port;
+   this.explore(server, port, rootUUID, initial);
+};
+
+dropdown.fillBranches = function(rootUUID) {
+   var server = dropdown.current.server;
+   var port = dropdown.current.port;
+   var uuids = dropdown.repos[server][port];
+};
+
 dropdown.onChangeRootUUID = function(rootUUID) {
   this.updateName(rootUUID);
   this.updateDataUUIDs(rootUUID);
+  this.fillBranches(rootUUID);
   $('#select-name').selectpicker('refresh');
   $('#select-uuid').selectpicker('refresh');
 };
 
 dropdown.onChangeRootName = function(rootName) {
   this.updateUUID(rootName);
-  var server = $('#select-server')[0].value;
-  var port = $('#select-port')[0].value;
-  var uuid = $('#select-uuid')[0].value
+   var server = dropdown.current.server;
+   var port = dropdown.current.port;
+  var uuid = $('#select-uuid')[0].value;
   this.explore(server, port, uuid);
 
   $('#select-name').selectpicker('refresh');
@@ -230,36 +243,33 @@ dropdown.onChangeRootName = function(rootName) {
 };
 
 dropdown.onChangeDataUUID = function(dataUUID) {
-  // update branch
-  var server = $('#select-server')[0].value;
-  var port = $('#select-port')[0].value;
-  var rootUUID = $('#select-uuid')[0].value
-
   if (dropdown.env) {
     var branchControl = $('#select-branch');
-    branchControl.empty();
     var branch = dropdown.env[dataUUID].Branch;
-    dropdown.addOption(window.document, branchControl, branch);
     branchControl[0].value = branch;
     branchControl.selectpicker('refresh');
   }
 };
 
-dropdown.updateDataUUIDs = function(rootUUID){
-  var server = $('#select-server')[0].value;
-  var port = $('#select-port')[0].value;
-  this.explore(server, port, rootUUID);
-};
-
-dropdown.addOption = function(docm, selectControl, value) {
-  var o = docm.createElement('option');
-  var content = docm.createTextNode(value);
+dropdown.addOption = function(selectControl, value) {
+  var o = window.document.createElement('option');
+  var content = window.document.createTextNode(value);
   o.appendChild(content);
   selectControl.append(o);
 };
 
-dropdown.onChangeBranch = function() {
-  console.log('Branch chaanged');
+// first implementation: show first uuid in datauuid dropdown, which has this branch value
+dropdown.onChangeBranch = function(branch) {
+   if (dropdown.env) {
+      var versions = Object.keys(dropdown.env);
+      for (var v = 0, len = versions.length; v < len; v++) {
+         if (dropdown.env[versions[v]].Branch === branch) {
+            $('#select-datauuid')[0].value = versions[v];
+            $('#select-datauuid').selectpicker('refresh');
+            break;
+         }
+      }
+   }
 };
 
 // display information about environment (name and UUID)
