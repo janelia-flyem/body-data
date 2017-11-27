@@ -19,6 +19,8 @@
     "zip-js": "0.0.2"
   },
   "devDependencies": {
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.2.0",
     "grunt-contrib-compress": "^1.4.3",
@@ -26,6 +28,8 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-uglify": "^3.1.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-modernizr": "^1.0.2"
+    "grunt-modernizr": "^1.0.2",
+    "gruntify-eslint": "^4.0.0",
+    "load-grunt-tasks": "^3.5.2"
   }
 }
