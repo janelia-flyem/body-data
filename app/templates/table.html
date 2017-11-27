@@ -50,8 +50,10 @@
             <select class='selectpicker' id="select-datauuid" value="" data-live-search="true" onchange="dropdown.onChangeDataUUID(this.value)"></select>
          </div>
          <div class="col-sm-2 col-md-1 col-lg-1">
-            <button type="button" id="load-data" class="load-data btn btn-default btn-sm btn-info" onclick="dropdown.loadData()">Load Data</button><br/>
-            <input id="gallery-button" class="btn btn-default gallery-button btn-sm btn-info" type="button" onclick="bodyExplorer.openGallery()" value="Open Gallery"/>
+            <div class="buttons">
+               <button type="button" id="load-data" class="load-data btn btn-default btn-sm btn-info" onclick="dropdown.loadData()">Load Data</button>
+               <input id="gallery-button" class="btn btn-default gallery-button btn-sm btn-info" type="button" onclick="bodyExplorer.openGallery()" value="Open Gallery"/>   
+            </div>
          </div>
       </div>
       <!-- table data -->

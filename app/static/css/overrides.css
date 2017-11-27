@@ -206,9 +206,31 @@ label input[type=checkbox]{
   margin-top: 24px;
 }
 
+@media (max-width: 767px) {
+  .buttons {
+    max-width: 56%;
+  }
 
-.gallery-button {
-  margin-top: 1.15em;
+  .buttons .btn {
+    float: right;
+    margin-left: 5px;
+    margin-bottom: 5px;
+  }
+}
+
+@media (min-width: 768px) {
+  .gallery-button {
+    margin-top: 0px;
+    margin-bottom: 0.5em;
+  }
+
+  .buttons {
+    padding-bottom: 10px;
+  }
+
+  .buttons .btn {
+    margin-bottom: 10px;
+  }
 }
 
 .body-label {
@@ -221,10 +243,6 @@ label input[type=checkbox]{
   width: 80% !important;
 }
 
-.selectpicker .bootstrap-select .dropdown-toggle span{
-  background-color: 30px;
-}
-
 select.selectpicker {
   display: none;
 }
@@ -232,3 +250,4 @@ select.selectpicker {
 .bootstrap-select.btn-group {
   max-width: 56%;
 }
+
