@@ -25,6 +25,11 @@ dropdown.explore = function (server, port, rootUUID, initial) {
     method: 'GET',
   });
 
+  const branchElem = $('#select-branch');
+  branchElem.empty();
+  const uuidElem = $('#select-datauuid');
+  uuidElem.empty();
+
   const cFetch = fetch(infoRequest).then(dropdown.status)
     .then(dropdown.json)
     .then((data) => {
@@ -33,15 +38,14 @@ dropdown.explore = function (server, port, rootUUID, initial) {
       return versions;
     })
     .catch((error) => {
-      console.log('Request failed', error);
+      branchElem.selectpicker('refresh');
+      uuidElem.selectpicker('refresh');
+      console.log('Request failed: ', error);
     })
     .then((result) => {
       if (result && Array.isArray(result) && result.length > 0) {
-        const uuidElem = $('#select-datauuid');
-        const branchElem = $('#select-branch');
         const branches = new Set();
-        uuidElem.empty();
-        branchElem.empty();
+
         for (var j = 0, len = result.length; j < len; j++) {
           dropdown.addOption(uuidElem, result[j]);
           branches.add(dropdown.env[result[j]].Branch);
@@ -51,11 +55,11 @@ dropdown.explore = function (server, port, rootUUID, initial) {
           dropdown.addOption(branchElem, branchArray[i]);
         }
         if (initial) {
-          $('#select-datauuid')[0].value = dropdown.init.dataUUID;
-          $('#select-branch')[0].value = dropdown.env[dropdown.init.dataUUID].Branch;
+          uuidElem[0].value = dropdown.init.dataUUID;
+          branchElem[0].value = dropdown.env[dropdown.init.dataUUID].Branch;
         }
-        $('#select-datauuid').selectpicker('refresh');
-        $('#select-branch').selectpicker('refresh');
+        uuidElem.selectpicker('refresh');
+        branchElem.selectpicker('refresh');
       }
     });
 };
@@ -131,6 +135,7 @@ dropdown.initializeSelect = function () {
 
 // fill the ports available for the selected server into 2. dropdown
 dropdown.fillPort = function (server, initial) {
+  dropdown.current.server = server;
   const selectPort = $('#select-port');
   selectPort.empty();
   const subObj = dropdown.repos[server];
@@ -149,11 +154,12 @@ dropdown.fillPort = function (server, initial) {
       this.fillName(ports[0], initial);
     }
   }
-  $('#select-port').selectpicker('refresh');
+  selectPort.selectpicker('refresh');
 };
 
 dropdown.fillName = function (port, initial) {
   const server = dropdown.current.server;
+  dropdown.current.port = port;
   if (dropdown.repos[server][port] && dropdown.repos[server][port].length > 0) {
     const selectName = $('#select-name');
     selectName.empty();
@@ -171,10 +177,10 @@ dropdown.fillName = function (port, initial) {
       dropdown.addOption(selectName, name);
     }
     if (initial) { // set intial value for the name field
-      $('#select-name')[0] = dropdown.init.name;
+      selectName[0] = dropdown.init.name;
     }
-    $('#select-name').selectpicker('refresh');
-    $('#select-uuid').selectpicker('refresh');
+    selectName.selectpicker('refresh');
+    selectUUID.selectpicker('refresh');
   }
 };
 
@@ -216,19 +222,13 @@ dropdown.updateDataUUIDs = function (rootUUID, initial) {
   this.explore(server, port, rootUUID, initial);
 };
 
-dropdown.fillBranches = function (rootUUID) {
-  const server = dropdown.current.server;
-  const port = dropdown.current.port;
-  const uuids = dropdown.repos[server][port];
-};
-
 dropdown.onChangeRootUUID = function (rootUUID) {
   this.updateName(rootUUID);
   this.updateDataUUIDs(rootUUID);
-  this.fillBranches(rootUUID);
   $('#select-name').selectpicker('refresh');
   $('#select-uuid').selectpicker('refresh');
 };
+
 
 dropdown.onChangeRootName = function (rootName) {
   this.updateUUID(rootName);
@@ -241,6 +241,7 @@ dropdown.onChangeRootName = function (rootName) {
   $('#select-uuid').selectpicker('refresh');
 };
 
+// change the current branch when a different data uuid is selected
 dropdown.onChangeDataUUID = function (dataUUID) {
   if (dropdown.env) {
     const branchControl = $('#select-branch');

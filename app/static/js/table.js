@@ -173,8 +173,9 @@ $(document).ready(() => {
   // Add checkbox to filter for named bodies only
   $("th.default[name='1']").append('<div class="checkbox"><label><input id="show-name" class="body-search" type="checkbox" value="">Named bodies only</label></div>');
 
+  let table = null;
   if (table_data) {
-    const table = $('#data-table').DataTable({
+      table = $('#data-table').DataTable({
       responsive: true,
       autoWidth: false,
       data: table_data.data,
