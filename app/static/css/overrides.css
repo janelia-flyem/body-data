@@ -228,3 +228,7 @@ label input[type=checkbox]{
 select.selectpicker {
   display: none;
 }
+
+.bootstrap-select.btn-group {
+  max-width: 56%;
+}
