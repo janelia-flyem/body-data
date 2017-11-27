@@ -16,18 +16,18 @@ const repos = {
       description: 'description fb-highres',
     },
     {
-      name: 'section-24-v2a-ffn',
+      name: 'uuid test',
       server: 'emdata3',
       port: 8000,
       UUID: '12345',
       description: 'description fb-highres',
     },
     {
-      name: 'section-24-v2a-ffn',
+      name: 'port test',
       server: 'emdata3',
       port: 12345,
-      UUID: '100e772473774d9e9042829ed9af39f8',
-      description: 'description fb-highres',
+      UUID: 'uuid12345',
+      description: 'test 12345',
     },
   ],
 };

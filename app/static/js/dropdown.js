@@ -152,6 +152,8 @@ dropdown.fillPort = function (server, initial) {
       this.updateDataUUIDs(dropdown.init.UUID, initial);
     } else {
       this.fillName(ports[0], initial);
+      const selectuuid = $('#select-uuid');
+      this.updateDataUUIDs(selectuuid[0].value, initial);
     }
   }
   selectPort.selectpicker('refresh');
