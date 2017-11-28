@@ -138,8 +138,9 @@ dropdown.fillPort = function (server, initial) {
   const selectPort = $('#select-port');
   selectPort.empty();
   const subObj = dropdown.repos[server];
-  const ports = Object.keys(subObj);
-  if (ports.length > 0) {
+  if (subObj) {
+    const ports = Object.keys(subObj);
+    if (ports.length > 0) {
     ports.forEach((port) => {
       dropdown.addOption(selectPort, port);
     });
@@ -153,9 +154,10 @@ dropdown.fillPort = function (server, initial) {
       this.fillName(ports[0], initial);
       const selectuuid = $('#select-uuid');
       this.updateDataUUIDs(selectuuid[0].value, initial);
+      }
     }
+    selectPort.selectpicker('refresh');
   }
-  selectPort.selectpicker('refresh');
 };
 
 dropdown.fillName = function (port, initial) {
