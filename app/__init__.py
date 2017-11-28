@@ -38,8 +38,8 @@ def get_data():
                                  uuid=tId,
                                  shark_url = shark_url,
                                  gallery_urlbase = gallery_url,
-                                 server = 'emdata1',
-                                 port = '8700'
+                                 server = tServer,
+                                 port = tPort
                              )
    except Exception as e:
       error = get_error(False)
