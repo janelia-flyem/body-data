@@ -13,12 +13,21 @@ def get_error(general):
    else:
       return 'There was an error while requesting the data. Please make sure this is a valid UUID which has body status data and you are connected to the internal network of Janelia.'
 
-
+# root route, no information given, just take default values from settings file
 @app.route('/')
 def get_data():
    try:
-      id = settings.default_uuid
-      url = settings.url.replace('[id]', id)
+      # Set all values to the default values
+      tId = settings.default_uuid
+      tPort = settings.default_port
+      tServer = settings.default_server
+      tSkeleton = settings.default_skeleton
+
+      # Replace values in template urls
+      url = settings.url.replace('[id]', tId)
+      gallery_url = settings.gallery_urlbase.replace('[port]', tPort).replace('[server]', tServer)
+      shark_url = settings.shark_url.replace('[id]', tId).replace('[port]', tPort).replace('[server]', tServer).replace('[skeletons]', tSkeleton)
+
       response = requests.get(url)
       data = zlib.decompress(response.content, zlib.MAX_WBITS|32)
       json_str = data.decode('utf-8')
@@ -26,9 +35,9 @@ def get_data():
       return render_template('table.html',
                                  mytable=json_str,
                                  sortparams=sortparams,
-                                 uuid=id,
-                                 shark_url = settings.shark_url.replace('[id]', id),
-                                 gallery_urlbase = settings.gallery_urlbase
+                                 uuid=tId,
+                                 shark_url = shark_url,
+                                 gallery_urlbase = gallery_url
                              )
    except Exception as e:
       error = get_error(False)
@@ -36,41 +45,53 @@ def get_data():
       return render_template('table.html', error=error)
 
 
-@app.route('/uuid/<id>', methods=['GET'])
-def get_data_uuid(id):
+# route with just basic environment information (server, port, uuid)
+@app.route('/server/<server>/port/<port>/uuid/<uuid>', methods=['GET'])
+def get_environment_data(server, port, uuid):
    try:
-      url = settings.url.replace('[id]', id)
+      instance = settings.default_instance
+      key = settings.default_key
+      url = settings.full_url
+      url = url.replace('[server]', server).replace('[port]', port).replace('[id]', uuid).replace('[instance]', instance).replace('[key]', key)
+      gallery_url = settings.gallery_urlbase.replace('[port]', port).replace('[server]', server)
+      shark_url = settings.shark_url.replace('[id]', uuid).replace('[port]', port).replace('[server]', server).replace('[skeletons]', skeletons)
+
       response = requests.get(url)
       data = zlib.decompress(response.content, zlib.MAX_WBITS|32)
       json_str = data.decode('utf-8')
       sortparams = { 'sortby': 'body ID', 'sortdir': 'asc' }
+
       return render_template('table.html',
                               mytable=json_str,
                               sortparams=sortparams,
-                              uuid=id,
-                              shark_url = settings.shark_url.replace('[id]', id),
-                              gallery_urlbase = settings.gallery_urlbase
+                              uuid=uuid,
+                              shark_url = shark_url,
+                              gallery_urlbase = gallery_url
                            )
    except Exception as e:
       print(e)
       abort(404)
 
-@app.route('/server/<server>/port/<port>/uuid/<uuid>', methods=['GET'])
-def get_full_data(server, port, uuid):
+# route with all information needed to show the data (server, port, uuid, data instance and key to lookup the statistical body data, the skeleton dataset for the Shark view)
+@app.route('/server/<server>/port/<port>/uuid/<uuid>/instance/<instance>/key/<key>/skeletons/<skeletons>', methods=['GET'])
+def get_full_data(server, port, uuid, instance, key, skeletons):
    try:
+      uuid = str(uuid)
       url = settings.full_url
-      url = url.replace('[server]', server)
-      url = url.replace('[port]', port)
-      url = url.replace('[id]', uuid)
+      url = url.replace('[server]', server).replace('[port]', port).replace('[id]', uuid).replace('[instance]', instance).replace('[key]', key)
+      gallery_url = settings.gallery_urlbase.replace('[port]', port).replace('[server]', server)
+      shark_url = settings.shark_url.replace('[id]', uuid).replace('[port]', port).replace('[server]', server).replace('[skeletons]', skeletons)
+
       response = requests.get(url)
       data = zlib.decompress(response.content, zlib.MAX_WBITS|32)
       json_str = data.decode('utf-8')
       sortparams = { 'sortby': 'body ID', 'sortdir': 'asc' }
+
       return render_template('table.html',
                               mytable=json_str,
                               sortparams=sortparams,
                               uuid=uuid,
-                              shark_url = settings.shark_url.replace('[id]', uuid),
+                              shark_url = shark_url,
                               gallery_urlbase = settings.gallery_urlbase
                            )
    except Exception as e:

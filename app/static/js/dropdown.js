@@ -92,6 +92,7 @@ dropdown.init = {
 dropdown.current = {
   server: null,
   port: null,
+  root: null,
 };
 
 // aggregate json information / put informaition about same servers into second level object
@@ -110,6 +111,9 @@ dropdown.initializeRepo = function () {
     instance.UUID = elem.UUID;
     instance.name = elem.name;
     instance.description = elem.description;
+    instance.datainstance = elem.datainstance;
+    instance.key = elem.key;
+    instance.skeleton = elem.skeleton
     result[elem.server][elem.port].push(instance);
   });
   dropdown.repos = result;
@@ -128,7 +132,7 @@ dropdown.initializeSelect = function () {
     const serv = dropdown.init.server;
     dropdown.current.server = serv;
     selectServer[0].value = serv;
-    $('#select-server').selectpicker('refresh');
+    selectServer.selectpicker('refresh');
     this.fillPort(serv, true); // add the ports for init server
   }
 };
@@ -172,6 +176,7 @@ dropdown.fillName = function (port, initial) {
     for (let j = 0; j < realRepos.length; j++) {
       // populate dropdown to choose an UUID
       const uuid = realRepos[j].UUID;
+      dropdown.current.root = uuid;
       dropdown.addOption(selectUUID, uuid);
 
       // populate dropdown to choose a name
@@ -189,32 +194,38 @@ dropdown.fillName = function (port, initial) {
 dropdown.updateName = function (uuid) {
   const server = dropdown.current.server;
   const port = dropdown.current.port;
-  const name = $('#select-name')[0];
-
+  
   if (server && port) {
     const envs = dropdown.repos[server][port];
+    const nameControl = $('#select-name');
+    const name = nameControl[0];
     for (let i = 0; i < envs.length; i++) {
       if (envs[i].UUID === uuid) {
         name.value = envs[i].name;
+        break;
       }
     }
+    nameControl.selectpicker('refresh');
   }
 };
 
 dropdown.updateUUID = function (name) {
   const server = dropdown.current.server;
   const port = dropdown.current.port;
-  const uuid = $('#select-uuid')[0];
+  const uuidControl = $('#select-uuid');
+  const uuid = uuidControl[0];
 
   if (server && port) {
     const envs = dropdown.repos[server][port];
     for (let i = 0; i < envs.length; i++) {
       if (envs[i].name === name) {
         uuid.value = envs[i].UUID;
+        dropdown.current.root = envs[i].UUID;
+        break;
       }
     }
     $('#select-name').selectpicker('refresh');
-    $('#select-uuid').selectpicker('refresh');
+    uuidControl.selectpicker('refresh');
   }
 };
 
@@ -266,8 +277,9 @@ dropdown.onChangeBranch = function (branch) {
     const versions = Object.keys(dropdown.env);
     for (let v = 0, len = versions.length; v < len; v++) {
       if (dropdown.env[versions[v]].Branch === branch) {
-        $('#select-datauuid')[0].value = versions[v];
-        $('#select-datauuid').selectpicker('refresh');
+        const datauuidControl = $('#select-datauuid');
+        datauuidControl[0].value = versions[v];
+        datauuidControl.selectpicker('refresh');
         break;
       }
     }
@@ -279,8 +291,19 @@ dropdown.loadData = function () {
   const server = $('#select-server')[0].value;
   const port = $('#select-port')[0].value;
   const uuid = $('#select-datauuid')[0].value;
-  const new_location = `/server/${server}/port/${port}/uuid/${uuid}`;
-  if (window.location.pathname !== new_location) {
+  const envs = dropdown.repos[server][port];
+  let new_location = null;
+  for (let k = 0; k < envs.length; k += 1) {
+    if (envs[k].UUID === dropdown.current.root) {
+      const instance = envs[k].datainstance;
+      const key = envs[k].key;
+      const skeleton = envs[k].skeleton
+      new_location = `/server/${server}/port/${port}/uuid/${uuid}/instance/${instance}/key/${key}/skeletons/${skeleton}`;
+      break;
+    }
+  }
+
+  if (new_location && window.location.pathname !== new_location) {
     window.location.pathname = new_location;
   }
 };
