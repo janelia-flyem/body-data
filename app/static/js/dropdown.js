@@ -56,7 +56,10 @@ dropdown.explore = function (server, port, rootUUID, initial) {
         }
         if (initial) {
           uuidElem[0].value = dropdown.init.dataUUID;
-          branchElem[0].value = dropdown.env[dropdown.init.dataUUID].Branch;
+          var node = dropdown.env[dropdown.init.dataUUID];
+          if (node) {
+            branchElem[0].value = node.Branch;
+          }
         }
         uuidElem.selectpicker('refresh');
         branchElem.selectpicker('refresh');
@@ -80,14 +83,6 @@ dropdown.hideLevel = function (id) {
 };
 
 dropdown.repos = null;
-
-dropdown.init = {
-  server: 'emdata1',
-  port: '8700',
-  UUID: '18979',
-  dataUUID: '18979088f9d248d6ac428df4cea022fe',
-  name: 'pb26-27-2-trm-eroded32_ffn-20170216-2_celis_cx2-2048_r10_0_seeded_64blksz',
-};
 
 dropdown.current = {
   server: null,

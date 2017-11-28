@@ -37,7 +37,9 @@ def get_data():
                                  sortparams=sortparams,
                                  uuid=tId,
                                  shark_url = shark_url,
-                                 gallery_urlbase = gallery_url
+                                 gallery_urlbase = gallery_url,
+                                 server = 'emdata1',
+                                 port = '8700'
                              )
    except Exception as e:
       error = get_error(False)
@@ -66,7 +68,9 @@ def get_environment_data(server, port, uuid):
                               sortparams=sortparams,
                               uuid=uuid,
                               shark_url = shark_url,
-                              gallery_urlbase = gallery_url
+                              gallery_urlbase = gallery_url,
+                              server = server,
+                              port = port
                            )
    except Exception as e:
       print(e)
@@ -76,6 +80,7 @@ def get_environment_data(server, port, uuid):
 @app.route('/server/<server>/port/<port>/uuid/<uuid>/instance/<instance>/key/<key>/skeletons/<skeletons>', methods=['GET'])
 def get_full_data(server, port, uuid, instance, key, skeletons):
    try:
+
       uuid = str(uuid)
       url = settings.full_url
       url = url.replace('[server]', server).replace('[port]', port).replace('[id]', uuid).replace('[instance]', instance).replace('[key]', key)
@@ -92,7 +97,9 @@ def get_full_data(server, port, uuid, instance, key, skeletons):
                               sortparams=sortparams,
                               uuid=uuid,
                               shark_url = shark_url,
-                              gallery_urlbase = settings.gallery_urlbase
+                              gallery_urlbase = settings.gallery_urlbase,
+                              server = server,
+                              port = port
                            )
    except Exception as e:
       print(e)

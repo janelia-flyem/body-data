@@ -53,7 +53,7 @@ const n_table = {
 
       fetch(swcRequest)
         .then((resp) => {
-          if (resp.status === '200') {
+          if (resp.status == '200') {
             return resp.text();
           }
           n_table.add_error_element('No SharkView for this body available, sorry!');

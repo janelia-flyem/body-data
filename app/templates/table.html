@@ -27,7 +27,6 @@
       <div class="row">
          <div class="col-sm-12 col-md-12 col-lg-12 data-table-column">
             <h3>Body Data</h3>
-            sharkUrl: {{ shark_url }}
          </div>
       </div>
       <!-- dataset information and options -->
@@ -105,6 +104,8 @@
          // env variables
          bodyExplorer.sharkUrl = "{{ shark_url }}";
          bodyExplorer.galleryUrlBase = "{{ gallery_urlbase }}";
+
+         console.log('shark url: ' + bodyExplorer.sharkUrl);
       </script>
 
       <!-- contrib dependencies -->
@@ -123,6 +124,13 @@
 
       <!-- scripts to handle dropdowns to choose dataset -->
       <script>
+         dropdown.init = {
+           server: "{{ server }}",
+           port: "{{ port }}",
+           UUID: "{{ uuid }}",
+           dataUUID: '18979088f9d248d6ac428df4cea022fe'
+         };
+
          dropdown.initializeRepo();
          dropdown.initializeSelect();
          $(function() {
