@@ -104,8 +104,9 @@
          // env variables
          bodyExplorer.sharkUrl = "{{ shark_url }}";
          bodyExplorer.galleryUrlBase = "{{ gallery_urlbase }}";
-
+         bodyExplorer.myTestRoot = "{{ url_for('get_data')}}";
          console.log('shark url: ' + bodyExplorer.sharkUrl);
+         console.log('test root: ' + bodyExplorer.myTestRoot);
       </script>
 
       <!-- contrib dependencies -->
