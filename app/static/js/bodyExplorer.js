@@ -8,6 +8,11 @@ const bodyExplorer = {
   galleryUrlXZ: '/grayscale/isotropic/0_2/256_256/',
   galleryUrlYZ: '/grayscale/isotropic/1_2/256_256/',
 
+  // custom css
+  customCSS: 'static/css/overrides.css',
+  bootstrapCSS: 'static/components/bootstrap/dist/css/bootstrap.min.css',
+  datatableCSS: 'static/components/datatables.net-bs/css/dataTables.bootstrap.css',
+
   // custom scripts
   galleryJS: 'static/js/gallery.js',
   dataTablesJS: 'static/components/datatables.net/js/jquery.dataTables.js',

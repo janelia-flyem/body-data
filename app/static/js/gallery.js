@@ -27,11 +27,7 @@ var n_gallery = {
     csses.push(bodyExplorer.bootstrapCSS);
     csses.push(bodyExplorer.customCSS);
 
-    let location = window.location.origin;
-
-    if (location[location.length - 1] == '/') {
-      location = location.substr(0, location.length - 1);
-    }
+    let location = window.origin + bodyExplorer.myRoot;
 
     // Add stylesheets to gallery
     for (let i = 0; i < csses.length; i++) {
@@ -185,7 +181,8 @@ var n_gallery = {
 
     for (var j = 0; j < scripts.length; j++) {
       const script = doc.createElement('script');
-      script.src = `${location}/${scripts[j]}`;
+      const path = `${location}${scripts[j]}`;
+      script.src = path;
       doc.head.appendChild(script);
     }
 
