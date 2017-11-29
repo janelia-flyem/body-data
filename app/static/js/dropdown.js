@@ -295,7 +295,7 @@ dropdown.loadData = function () {
       const instance = envs[k].datainstance;
       const key = envs[k].key;
       const skeleton = envs[k].skeleton
-      new_location = `${bodyExplorer.myRoot}server/${server}/port/${port}/uuid/${uuid}/instance/${instance}/key/${key}/skeletons/${skeleton}`;
+      new_location = `${bodyExplorer.myRoot}env/${server}/${port}/${uuid}/${instance}/${key}/${skeleton}`;
       break;
     }
   }

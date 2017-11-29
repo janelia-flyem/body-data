@@ -48,7 +48,7 @@ def get_data():
 
 
 # route with just basic environment information (server, port, uuid)
-@app.route('/<server>/<port>/<uuid>', methods=['GET'])
+@app.route('/env/<server>/<port>/<uuid>', methods=['GET'])
 def get_environment_data(server, port, uuid):
    try:
       instance = settings.default_instance
@@ -77,7 +77,7 @@ def get_environment_data(server, port, uuid):
       abort(404)
 
 # route with all information needed to show the data (server, port, uuid, data instance and key to lookup the statistical body data, the skeleton dataset for the Shark view)
-@app.route('/server/<server>/port/<port>/uuid/<uuid>/instance/<instance>/key/<key>/skeletons/<skeletons>', methods=['GET'])
+@app.route('/env/<server>/<port>/<uuid>/<instance>/<key>/<skeletons>', methods=['GET'])
 def get_full_data(server, port, uuid, instance, key, skeletons):
    try:
 
