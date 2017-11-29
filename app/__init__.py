@@ -48,7 +48,7 @@ def get_data():
 
 
 # route with just basic environment information (server, port, uuid)
-@app.route('/server/<server>/port/<port>/uuid/<uuid>', methods=['GET'])
+@app.route('/<server>/<port>/<uuid>', methods=['GET'])
 def get_environment_data(server, port, uuid):
    try:
       instance = settings.default_instance
@@ -97,7 +97,7 @@ def get_full_data(server, port, uuid, instance, key, skeletons):
                               sortparams=sortparams,
                               uuid=uuid,
                               shark_url = shark_url,
-                              gallery_urlbase = settings.gallery_urlbase,
+                              gallery_urlbase = gallery_url,
                               server = server,
                               port = port
                            )
