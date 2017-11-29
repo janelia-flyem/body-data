@@ -84,6 +84,8 @@
 
       <!-- scripts -->
       <script src="{{url_for('static', filename='js/bodyExplorer.js')}}"></script>
+
+      <!-- table variables -->
       <script>
          {%  if mytable %}
             var table_data = {{ mytable|safe }};
@@ -92,12 +94,13 @@
          {% endif %}
          // table_data.data = table_data.data.slice(0,5); // DEV config sub array
       </script>
+
+      <!-- bodyexplorer variables -->
       <script>
          bodyExplorer.uuid = "{{ uuid|safe }}";
          bodyExplorer.staticUrl = "{{ url_for('static', filename='') }}";
          bodyExplorer.sharklogo = "{{ url_for('static', filename='files/shark.png') }}";
 
-         // env variables
          bodyExplorer.sharkUrl = "{{ shark_url }}";
          bodyExplorer.galleryUrlBase = "{{ gallery_urlbase }}";
          bodyExplorer.myRoot = "{{ url_for('get_data')}}";
@@ -123,7 +126,7 @@
            server: "{{ server }}",
            port: "{{ port }}",
            UUID: "{{ uuid }}",
-           dataUUID: '18979088f9d248d6ac428df4cea022fe'
+           dataUUID: "{{ uuid }}"
          };
 
          dropdown.initializeRepo();
