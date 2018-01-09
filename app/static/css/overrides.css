@@ -202,3 +202,52 @@ label input[type=checkbox]{
    color: #555;
 }
 
+.gallery-options {
+  margin-top: 24px;
+}
+
+@media (max-width: 767px) {
+  .buttons {
+    max-width: 56%;
+  }
+
+  .buttons .btn {
+    float: right;
+    margin-left: 5px;
+    margin-bottom: 5px;
+  }
+}
+
+@media (min-width: 768px) {
+  .gallery-button {
+    margin-top: 0px;
+    margin-bottom: 0.5em;
+  }
+
+  .buttons {
+    padding-bottom: 10px;
+  }
+
+  .buttons .btn {
+    margin-bottom: 10px;
+  }
+}
+
+.body-label {
+  min-width: 5.2em;
+  text-align: right;
+  padding-right: 0.5em;
+}
+
+.bootstrap-select > .button {
+  width: 80% !important;
+}
+
+select.selectpicker {
+  display: none;
+}
+
+.bootstrap-select.btn-group {
+  max-width: 56%;
+}
+
