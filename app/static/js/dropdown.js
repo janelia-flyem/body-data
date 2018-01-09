@@ -131,11 +131,10 @@ dropdown.initializeSelect = function () {
     keys.forEach((server) => {
       dropdown.addOption(selectServer, server);
     });
-    const serv = dropdown.init.server;
-    dropdown.current.server = serv;
-    selectServer[0].value = serv;
+    dropdown.current.server = keys[0];
+    selectServer[0].value = keys[0];
     selectServer.selectpicker('refresh');
-    this.fillPort(serv, true); // add the ports for init server
+    this.fillPort(keys[0], true); // add the ports for init server
   }
 };
 
@@ -154,10 +153,9 @@ dropdown.fillPort = function (server, initial) {
       dropdown.addOption(selectPort, port);
     });
     if (initial) {
-      const port = dropdown.init.port;
-      dropdown.current.port = port;
-      selectPort[0].value = port;
-      this.fillName(port, initial);
+      dropdown.current.port = ports[0];
+      selectPort[0].value = ports[0];
+      this.fillName(ports[0], initial);
       this.updateDataUUIDs(dropdown.init.UUID, initial);
     } else {
       this.fillName(ports[0], initial);
@@ -175,28 +173,30 @@ dropdown.fillPort = function (server, initial) {
 dropdown.fillName = function (port, initial) {
   const server = dropdown.current.server;
   dropdown.current.port = port;
+  let newName = null;
   if (dropdown.repos[server][port] && dropdown.repos[server][port].length > 0) {
-    const selectName = $('#select-name');
-    selectName.empty();
-    const selectUUID = $('#select-uuid');
-    selectUUID.empty();
+      const selectName = $('#select-name');
+      selectName.empty();
+      const selectUUID = $('#select-uuid');
+      selectUUID.empty();
+      const realRepos = dropdown.repos[server][port];
+      if (realRepos.length > 0) {
+        for (let j = 0; j < realRepos.length; j++) {
+        // populate dropdown to choose an UUID
+        const uuid = realRepos[j].UUID;
+        dropdown.current.root = uuid;
+        dropdown.addOption(selectUUID, uuid);
 
-    const realRepos = dropdown.repos[server][port];
-    for (let j = 0; j < realRepos.length; j++) {
-      // populate dropdown to choose an UUID
-      const uuid = realRepos[j].UUID;
-      dropdown.current.root = uuid;
-      dropdown.addOption(selectUUID, uuid);
-
-      // populate dropdown to choose a name
-      const name = realRepos[j].name;
-      dropdown.addOption(selectName, name);
-    }
-    if (initial) { // set intial value for the name field
-      selectName[0] = dropdown.init.name;
+        // populate dropdown to choose a name
+        const name = realRepos[j].name;
+        dropdown.addOption(selectName, name);
+      }
+      newName = realRepos[0].name
+      selectName[0] = newName;
     }
     selectName.selectpicker('refresh');
     selectUUID.selectpicker('refresh');
+    dropdown.onChangeRootName(newName);
   }
 };
 
@@ -290,8 +290,8 @@ dropdown.onChangeDataUUID = function (dataUUID) {
 };
 
 /*
- * Add another option to a select dropdown
- */
+* Add another option to a select dropdown
+*/
 dropdown.addOption = function (selectControl, value) {
   const o = window.document.createElement('option');
   const content = window.document.createTextNode(value);
@@ -299,7 +299,9 @@ dropdown.addOption = function (selectControl, value) {
   selectControl.append(o);
 };
 
-// First implementation: show first uuid in datauuid dropdown, which has this branch value
+/*
+* First implementation: show first uuid in datauuid dropdown, which has this branch value
+*/
 dropdown.onChangeBranch = function (branch) {
   if (dropdown.env) {
     const versions = Object.keys(dropdown.env);
@@ -314,7 +316,9 @@ dropdown.onChangeBranch = function (branch) {
   }
 };
 
-// Display information about environment (name and UUID)
+/*
+* Display information about environment (name and UUID)
+*/
 dropdown.loadData = function () {
   const server = $('#select-server')[0].value;
   const port = $('#select-port')[0].value;
