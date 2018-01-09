@@ -33,19 +33,19 @@
       <div class="row">
          <div class="col-sm-3 col-md-3 col-lg-2">
             <label class="body-label">Server:</label>
-            <select class='selectpicker' id="select-server" value="emdata1" onchange="dropdown.fillPort(this.value, false)" data-live-search="true" title="Choose one of the following..."></select><br/>
+            <select class='selectpicker' id="select-server" value="emdata1" onchange="dropdown.fillPort(this.value, false)" data-live-search="true"></select><br/>
             <label class="body-label">Port:</label>
-            <select class='selectpicker' id="select-port" value="" onchange="dropdown.fillName(this.value)" data-live-search="true" title="Choose one of the following..."></select>
+            <select class='selectpicker' id="select-port" value="" onchange="dropdown.fillName(this.value)" data-live-search="true"></select>
          </div>
          <div class="col-sm-3 col-md-3 col-lg-2">
             <label class="body-label">Name:</label>
-            <select class='selectpicker name' id="select-name" value="" onchange="dropdown.onChangeRootName(this.value)" data-live-search="true" title="Choose one of the following..."></select><br/>
+            <select class='selectpicker name' id="select-name" value="" onchange="dropdown.onChangeRootName(this.value)" data-live-search="true"></select><br/>
             <label class="body-label">Root:</label>
             <select class='selectpicker' id="select-uuid" value="" data-live-search="true" onchange="dropdown.onChangeRootUUID(this.value)"></select>
          </div>
          <div class="col-sm-4 col-md-3 col-lg-3">
             <label class="body-label">Branch:</label>
-            <select class='selectpicker' id="select-branch" value="" data-live-search="true" onchange="dropdown.onChangeBranch(this.value)"></select><br/>
+            <select class='selectpicker' id="select-branch" value="" data-live-search="true" onchange="dropdown.onChangeBranch(this.value)" title="" ></select><br/>
             <label class="body-label">UUID:</label>
             <select class='selectpicker' id="select-datauuid" value="" data-live-search="true" onchange="dropdown.onChangeDataUUID(this.value)"></select>
          </div>
