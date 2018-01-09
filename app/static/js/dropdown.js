@@ -13,6 +13,9 @@ dropdown.json = function (response) {
 
 dropdown.env = null;
 
+/*
+* Query which branches and uuids are available for an env
+*/
 dropdown.explore = function (server, port, rootUUID, initial) {
   const infoURL = `http://${
     server
@@ -67,12 +70,12 @@ dropdown.explore = function (server, port, rootUUID, initial) {
     });
 };
 
+
 dropdown.showLevel = function (id, level) {
   $(`.dropdown-${level}`).each(function () {
     $(this).css('display', 'none');
   });
   const item = $(`#div-${id}`);
-  // item.css('display','block');
   item.css('display', 'block');
 };
 
@@ -90,7 +93,9 @@ dropdown.current = {
   root: null,
 };
 
-// aggregate json information / put informaition about same servers into second level object
+/*
+* Aggregate json information / put informaition about same servers into second level object
+*/
 dropdown.initializeRepo = function () {
   const result = {};
   repos.repos.forEach((elem) => {
@@ -114,7 +119,9 @@ dropdown.initializeRepo = function () {
   dropdown.repos = result;
 };
 
-// initialize dropdown with servers available from repos.js
+/*
+* Initialize dropdown with servers available from repos.js
+*/
 dropdown.initializeSelect = function () {
   const selectServer = $('#select-server');
   selectServer.empty();
@@ -132,7 +139,9 @@ dropdown.initializeSelect = function () {
   }
 };
 
-// fill the ports available for the selected server into 2. dropdown
+/*
+* Fill the ports available for the selected server into 2. dropdown
+*/
 dropdown.fillPort = function (server, initial) {
   dropdown.current.server = server;
   const selectPort = $('#select-port');
@@ -160,6 +169,9 @@ dropdown.fillPort = function (server, initial) {
   }
 };
 
+/*
+* Auto-populate the name of the repo
+*/
 dropdown.fillName = function (port, initial) {
   const server = dropdown.current.server;
   dropdown.current.port = port;
@@ -188,6 +200,9 @@ dropdown.fillName = function (port, initial) {
   }
 };
 
+/*
+* Update name when root uuid changes
+*/
 dropdown.updateName = function (uuid) {
   const server = dropdown.current.server;
   const port = dropdown.current.port;
@@ -206,6 +221,9 @@ dropdown.updateName = function (uuid) {
   }
 };
 
+/*
+* Update root uuid when name changes
+*/
 dropdown.updateUUID = function (name) {
   const server = dropdown.current.server;
   const port = dropdown.current.port;
@@ -226,12 +244,18 @@ dropdown.updateUUID = function (name) {
   }
 };
 
+/*
+* Query available data uuids when rootUUID changes
+*/
 dropdown.updateDataUUIDs = function (rootUUID, initial) {
   const server = dropdown.current.server;
   const port = dropdown.current.port;
   this.explore(server, port, rootUUID, initial);
 };
 
+/*
+* Do necessary changes when changing Root UUID
+*/
 dropdown.onChangeRootUUID = function (rootUUID) {
   this.updateName(rootUUID);
   this.updateDataUUIDs(rootUUID);
@@ -239,7 +263,9 @@ dropdown.onChangeRootUUID = function (rootUUID) {
   $('#select-uuid').selectpicker('refresh');
 };
 
-
+/*
+* Do necessary changes when changing Root Name
+*/
 dropdown.onChangeRootName = function (rootName) {
   this.updateUUID(rootName);
   const server = dropdown.current.server;
@@ -251,7 +277,9 @@ dropdown.onChangeRootName = function (rootName) {
   $('#select-uuid').selectpicker('refresh');
 };
 
-// change the current branch when a different data uuid is selected
+/*
+* Change the current branch when a different data uuid is selected
+*/
 dropdown.onChangeDataUUID = function (dataUUID) {
   if (dropdown.env) {
     const branchControl = $('#select-branch');
@@ -261,6 +289,9 @@ dropdown.onChangeDataUUID = function (dataUUID) {
   }
 };
 
+/*
+ * Add another option to a select dropdown
+ */
 dropdown.addOption = function (selectControl, value) {
   const o = window.document.createElement('option');
   const content = window.document.createTextNode(value);
@@ -268,7 +299,7 @@ dropdown.addOption = function (selectControl, value) {
   selectControl.append(o);
 };
 
-// first implementation: show first uuid in datauuid dropdown, which has this branch value
+// First implementation: show first uuid in datauuid dropdown, which has this branch value
 dropdown.onChangeBranch = function (branch) {
   if (dropdown.env) {
     const versions = Object.keys(dropdown.env);
@@ -283,7 +314,7 @@ dropdown.onChangeBranch = function (branch) {
   }
 };
 
-// display information about environment (name and UUID)
+// Display information about environment (name and UUID)
 dropdown.loadData = function () {
   const server = $('#select-server')[0].value;
   const port = $('#select-port')[0].value;
