@@ -1,7 +1,11 @@
 from flask import Flask, render_template, flash, request, abort
+import os
 import requests
 import zlib
-from settings_private import Settings
+import json
+from pprint import pprint
+from urllib.request import urlopen
+from .settings_private import Settings
 
 app = Flask(__name__)
 app.jinja_env.auto_reload = True
@@ -105,6 +109,76 @@ def get_full_data(server, port, uuid, instance, key, skeletons):
       print(e)
       abort(404)
 
+# route with all information needed to show the data (server, port, uuid, data instance and key to lookup the statistical body data, the skeleton dataset for the Shark view)
+@app.route('/test')
+def test():
+  instance = settings.default_instance
+  key = settings.default_key
+  skeletons = settings.default_skeleton
+  sortparams = { 'sortby': 'body ID', 'sortdir': 'asc' }
+  with open(os.path.join(settings.app_static, 'files/repos.json')) as f:
+    my_repos = json.load(f)
+    if len(my_repos['repos']) > 0:
+      name = my_repos['repos'][0]['name']
+      uuid = str(my_repos['repos'][0]['UUID'])
+      port = str(my_repos['repos'][0]['port'])
+      server = my_repos['repos'][0]['server']
+
+      # Get body data from url
+      masterid = get_latest_masterid(server, port, uuid)
+      masterid = '18979' # TOOD Don't hard-code master id
+
+      # Set the urls with given information
+      url = settings.full_url
+      url = url.replace('[server]', server).replace('[port]', port).replace('[id]', masterid).replace('[instance]', instance).replace('[key]', key)
+      gallery_url = settings.gallery_urlbase.replace('[port]', port).replace('[server]', server)
+      shark_url = settings.shark_url.replace('[id]', uuid).replace('[port]', port).replace('[server]', server).replace('[skeletons]', skeletons)
+
+      try:
+         json_str = decompress_bodydata(url)
+         # return 'test'
+         return render_template('table.html',
+                                 mytable=json_str,
+                                 sortparams=sortparams,
+                                 uuid=masterid,
+                                 shark_url = shark_url,
+                                 gallery_urlbase = gallery_url,
+                                 server = server,
+                                 port = port
+                              )
+
+      except Exception as e:
+         print('An error occured in route test')
+         print(e)
+         abort(404)
+
 @app.errorhandler(404)
 def page_not_found(error):
    return render_template('notfound.html', err=get_error(True)), 404
+
+# Create json from gzip which contains body data
+def decompress_bodydata(url):
+   response = requests.get(url)
+   data = zlib.decompress(response.content, zlib.MAX_WBITS|32)
+   json_str = data.decode('utf-8')
+   return json_str
+
+# Get json for repository information
+def get_latest_masterid(server,port,root):
+   url = settings.data_url
+   url = url.replace('[server]', server).replace('[port]', port).replace('[id]', root)
+   try:
+      resp_text = urlopen(url).read().decode('UTF-8')
+      json_obj = json.loads(resp_text)
+      if 'DAG' in json_obj.keys():
+         nodes = json_obj['DAG']['Nodes'];
+         # nodes.sort(key=lambda x: x.Created, reverse=True)
+         items = nodes.items()
+         sorted_items = sorted(items, key=lambda tup: (tup[1]['Created']), reverse=True)
+         empty_branch = list(filter(lambda x: x[1]['Branch'] == "", sorted_items))
+         return empty_branch[0]['UUID']
+      return None;
+   except Exception as e:
+      print('An error occured in get_latest_masterid')
+      print(e)
+      abort(404)
