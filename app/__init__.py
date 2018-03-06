@@ -1,7 +1,7 @@
 from flask import Flask, render_template, flash, request, abort
 import requests
 import zlib
-from settings_private import Settings
+from app.settings_private import Settings
 
 app = Flask(__name__)
 app.jinja_env.auto_reload = True
