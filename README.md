@@ -4,31 +4,41 @@ This python flask application displays statistical body data and gives you the o
 
 ### How to use this repo
 
-Clone the repository to your machine and navigate into the root directory. With the python wrapper of your choice
-(I use virtualenv) create a python environment. (You may have to define the path to your python using `-p`) On your command line, type:
+Please clone the repository to your machine and navigate into the root directory. With the python wrapper of your choice
+(I use virtualenv), create a python environment. (You may have to define the path to your python using `-p`) To do that, run the following command on your command line:
 
-`virtualenv env --no-site-packages`
+```bash
+$ virtualenv env --no-site-packages`
+```
 
 With
 
-`source env/bin/activate`
+```bash
+$ source env/bin/activate
+```
 
 you can activate the environment.
 
 Then install the requirements using
 
-`pip install -r requirements.txt`
+```bash
+$ pip install -r requirements.txt
+```
 
 You're all set! With
 
-`python src/home.py`
+```bash
+$ python src/home.py
+```
 
 you should be able to run the Flask application.
 
 You can deactivate the environment using
 
-`deactivate`
+```bash
+$ deactivate
+```
 
 on your commandline.
 
-Create a new file in src called settings_private.py as a copy of settings.py. Fill in all the values for the values requested
+Finally, please create a new file in src called settings_private.py as a copy of settings.py and fill in all the requested values.
