@@ -6,6 +6,6 @@ Gruntfile.js
 app/settings_private.py
 app/settings_private.pyc
 app/__init__.pyc
-src/__pycache__/
+app/__pycache__/
 .idea
 app/static/js/repos.js
